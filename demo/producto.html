@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paracetamol 500mg - FarmaciaDescuento</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos generales */
+        
+        /* Estilos para breadcrumb */
+        .breadcrumb {
+            background-color: #f5f5f5;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+        
+        .breadcrumb-list {
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .breadcrumb-list li {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb-list li:not(:last-child)::after {
+            content: '\f054';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            margin: 0 10px;
+            font-size: 0.7rem;
+            color: #aaa;
+        }
+        
+        .breadcrumb-list li a {
+            color: #1A535C;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .breadcrumb-list li a:hover {
+            color: #4ECDC4;
+        }
+        
+        .breadcrumb-list li.active {
+            color: #FF6B6B;
+            font-weight: 500;
+        }
+        
+        /* Estilos para selección de farmacias */
+        .product-pharmacy-selector h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #1A535C;
+            font-size: 1.2rem;
+        }
+        
+        .product-availability-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #555;
+        }
+        
+        .product-availability-info i {
+            font-size: 1.2rem;
+            margin-right: 10px;
+            color: #1A535C;
+        }
+        
+        .product-availability-count {
+            font-weight: bold;
+            color: #1A535C;
+            margin-left: 5px;
+        }
+        
+        .pharmacy-options {
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .pharmacy-option {
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .pharmacy-option:last-child {
+            border-bottom: none;
+        }
+        
+        .pharmacy-option input[type="radio"] {
+            display: none;
+        }
+        
+        .pharmacy-option label {
+            display: block;
+            padding: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .pharmacy-option input[type="radio"]:checked + label {
+            background-color: #f0f9f8;
+            border-left: 4px solid #4ECDC4;
+        }
+        
+        .pharmacy-option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .pharmacy-name {
+            font-weight: bold;
+            color: #1A535C;
+        }
+        
+        .pharmacy-price {
+            font-weight: bold;
+            color: #FF6B6B;
+        }
+        
+        .pharmacy-address {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        .pharmacy-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .pharmacy-distance,
+        .pharmacy-stock,
+        .pharmacy-lab {
+            font-size: 0.85rem;
+            color: #777;
+        }
+        
+        .pharmacy-distance i,
+        .pharmacy-stock i,
+        .pharmacy-lab i {
+            color: #4ECDC4;
+            margin-right: 5px;
+        }
+        
+        .pharmacy-stock i {
+            color: #1A535C;
+        }
+        
+        .pharmacy-lab i {
+            color: #FF6B6B;
+        }
+        
+        /* Estilos para notificación del carrito */
+        .cart-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4ECDC4;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: none;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+        }
+        
+        .notification-content i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Estilos para carrito desplegable */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            transition: right 0.3s ease-in-out;
+            overflow-y: auto;
+        }
+        
+        .cart-sidebar.open {
+            right: 0;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .cart-header h3 {
+            margin: 0;
+            color: var(--secondary-color);
+        }
+        
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: var(--gray-dark);
+            cursor: pointer;
+        }
+        
+        .cart-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        
+        .cart-empty i {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        .cart-empty p {
+            color: var(--gray-dark);
+            margin-bottom: 20px;
+        }
+        
+        .cart-items {
+            padding: 20px;
+        }
+        
+        .cart-item {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            background-color: var(--gray-light);
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-dark);
+        }
+        
+        .cart-item-details {
+            flex: 1;
+        }
+        
+        .cart-item-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-pharmacy {
+            font-size: 0.8rem;
+            color: var(--gray-dark);
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-price {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+        
+        .cart-item-quantity span {
+            margin: 0 10px;
+        }
+        
+        .cart-item-remove {
+            color: var(--gray-dark);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .cart-item-remove:hover {
+            color: var(--accent-color);
+        }
+        
+        .cart-footer {
+            position: sticky;
+            bottom: 0;
+            background-color: white;
+            padding: 20px;
+            border-top: 1px solid var(--gray);
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .total-amount {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+        
+        .btn-checkout {
+            width: 100%;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+        
+        .product-detail {
+            padding: 40px 0;
+            background-color: var(--light-color);
+        }
+        
+        .product-detail-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+        }
+        
+        .product-gallery {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .product-main-image {
+            width: 100%;
+            height: 350px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .product-main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .product-thumbnails {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .product-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+        
+        .product-thumbnail:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .product-thumbnail.active {
+            border-color: var(--primary-color);
+        }
+        
+        .product-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info-container {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .product-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .product-pharmacy {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .pharmacy-logo {
+            width: 40px;
+            height: 40px;
+            background-color: var(--gray-light);
+            border-radius: 50%;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-dark);
+        }
+        
+        .pharmacy-name {
+            font-weight: 500;
+        }
+        
+        .product-price-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .product-discount {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: var(--border-radius);
+            font-weight: 700;
+            margin-right: 15px;
+        }
+        
+        .product-prices {
+            display: flex;
+            align-items: baseline;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: var(--gray-dark);
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .discounted-price {
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 2rem;
+        }
+        
+        .product-expiration {
+            background-color: var(--gray-light);
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .product-expiration i {
+            color: var(--secondary-color);
+            margin-right: 10px;
+        }
+        
+        .product-expiration-date {
+            font-weight: 500;
+        }
+        
+        .product-description {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .product-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .category-tag {
+            background-color: var(--gray-light);
+            color: var(--secondary-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .category-tag i {
+            margin-right: 5px;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--gray);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            background-color: var(--gray-light);
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            height: 40px;
+            border: none;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .add-to-cart-btn {
+            flex: 1;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0 20px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .add-to-cart-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .add-to-cart-btn i {
+            margin-right: 10px;
+        }
+        
+        .product-details-tabs {
+            margin-top: 40px;
+        }
+        
+        .tabs-header {
+            display: flex;
+            border-bottom: 1px solid var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            padding: 15px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .tab-content {
+            display: none;
+            line-height: 1.8;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-content h3 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+        
+        .tab-content ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .tab-content ul li {
+            margin-bottom: 10px;
+            list-style-type: disc;
+        }
+        
+        .similar-products {
+            padding: 50px 0;
+            background-color: var(--gray-light);
+        }
+        
+        .similar-products h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+        }
+        
+        .similar-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .product-detail-container {
+                flex-direction: column;
+            }
+            
+            .product-gallery, .product-info-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div style="font-weight: bold; color: #4ECDC4; font-size: 1.5rem;">FarmaciaDescuento</div>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar medicamentos, productos...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="categorias.html">Categorías</a></li>
+                    <li><a href="#">Farmacias</a></li>
+                    <li><a href="mis-tickets.html">Mis Tickets</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <a href="#" class="btn-login">Iniciar Sesión</a>
+                <a href="#" class="btn-register">Registrarse</a>
+                <a href="#" class="cart-icon"><i class="fas fa-shopping-cart"></i> <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <section class="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb-list">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="categorias.html">Categorías</a></li>
+                <li><a href="categoria.html">Analgésicos</a></li>
+                <li class="active">Paracetamol 500mg</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="product-detail">
+        <div class="container">
+            <div class="product-detail-container">
+                <div class="product-gallery">
+                    <div class="product-main-image">
+                        <img src="images/products/paracetamol.png" alt="Paracetamol 500mg" id="mainProductImage">
+                    </div>
+                    <div class="product-thumbnails">
+                        <div class="product-thumbnail" onclick="changeMainImage('images/products/paracetamol.png')">
+                            <img src="images/products/paracetamol.png" alt="Paracetamol vista frontal">
+                        </div>
+                        <div class="product-thumbnail" onclick="changeMainImage('images/products/paracetamol.png')">
+                            <img src="images/products/paracetamol.png" alt="Paracetamol vista lateral">
+                        </div>
+                        <div class="product-thumbnail" onclick="changeMainImage('images/products/paracetamol.png')">
+                            <img src="images/products/paracetamol.png" alt="Paracetamol vista posterior">
+                        </div>
+                    </div>
+                </div>
+                <div class="product-info-container">
+                    <h1 class="product-title">Paracetamol 500mg</h1>
+                    <div class="product-pharmacy-selector">
+                        <h3>Selecciona una farmacia:</h3>
+                    </div>
+                    <div class="product-price-container">
+                        <div class="product-discount">-40%</div>
+                        <div class="product-prices">
+                            <div class="original-price">$5.990</div>
+                            <div class="discounted-price">desde $3.590</div>
+                        </div>
+                    </div>
+                    <div class="product-availability-info">
+                        <i class="fas fa-store"></i>
+                        <div>
+                            <span>Disponible en:</span>
+                            <span class="product-availability-count">5 farmacias</span>
+                        </div>
+                    </div>
+                    <div class="product-description">
+                        <p>El paracetamol es un analgésico y antipirético eficaz para el alivio temporal del dolor leve a moderado asociado con dolores de cabeza, musculares, articulares, de espalda, dentales, menstruales y para reducir la fiebre.</p>
+                        <p>Este producto está próximo a vencer, pero mantiene toda su efectividad y seguridad hasta la fecha indicada.</p>
+                    </div>
+                    <div class="product-categories">
+                        <a href="categoria.html" class="category-tag"><i class="fas fa-pills"></i> Analgésico</a>
+                        <a href="#" class="category-tag"><i class="fas fa-head-side-virus"></i> Dolor de cabeza</a>
+                        <a href="#" class="category-tag"><i class="fas fa-thermometer-half"></i> Antipirético</a>
+                    </div>
+                    <div class="pharmacy-options">
+                        <div class="pharmacy-option">
+                            <input type="radio" name="pharmacy" id="pharmacy1" checked>
+                            <label for="pharmacy1">
+                                <div class="pharmacy-option-header">
+                                    <div class="pharmacy-name">Farmacia San Pablo</div>
+                                    <div class="pharmacy-price">$3.590</div>
+                                </div>
+                                <div class="pharmacy-address">Av. Presidente Ibáñez 1234, Puerto Montt</div>
+                                <div class="pharmacy-details">
+                                    <div class="pharmacy-distance"><i class="fas fa-map-marker-alt"></i> 1.2 km</div>
+                                    <div class="pharmacy-stock"><i class="fas fa-cubes"></i> Stock: 12 unidades</div>
+                                    <div class="pharmacy-lab"><i class="fas fa-flask"></i> Lab: Laboratorio Chile</div>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="pharmacy-option">
+                            <input type="radio" name="pharmacy" id="pharmacy2">
+                            <label for="pharmacy2">
+                                <div class="pharmacy-option-header">
+                                    <div class="pharmacy-name">Farmacia Cruz Verde</div>
+                                    <div class="pharmacy-price">$3.890</div>
+                                </div>
+                                <div class="pharmacy-address">Av. Angelmó 456, Puerto Montt</div>
+                                <div class="pharmacy-details">
+                                    <div class="pharmacy-distance"><i class="fas fa-map-marker-alt"></i> 2.5 km</div>
+                                    <div class="pharmacy-stock"><i class="fas fa-cubes"></i> Stock: 8 unidades</div>
+                                    <div class="pharmacy-lab"><i class="fas fa-flask"></i> Lab: Mintlab</div>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="pharmacy-option">
+                            <input type="radio" name="pharmacy" id="pharmacy3">
+                            <label for="pharmacy3">
+                                <div class="pharmacy-option-header">
+                                    <div class="pharmacy-name">Farmacia Salcobrand</div>
+                                    <div class="pharmacy-price">$3.990</div>
+                                </div>
+                                <div class="pharmacy-address">Av. Diego Portales 789, Puerto Montt</div>
+                                <div class="pharmacy-details">
+                                    <div class="pharmacy-distance"><i class="fas fa-map-marker-alt"></i> 3.1 km</div>
+                                    <div class="pharmacy-stock"><i class="fas fa-cubes"></i> Stock: 15 unidades</div>
+                                    <div class="pharmacy-lab"><i class="fas fa-flask"></i> Lab: Laboratorio Bagó</div>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="pharmacy-option">
+                            <input type="radio" name="pharmacy" id="pharmacy4">
+                            <label for="pharmacy4">
+                                <div class="pharmacy-option-header">
+                                    <div class="pharmacy-name">Farmacia Dr. Simi</div>
+                                    <div class="pharmacy-price">$4.100</div>
+                                </div>
+                                <div class="pharmacy-address">Calle Urmeneta 234, Puerto Montt</div>
+                                <div class="pharmacy-details">
+                                    <div class="pharmacy-distance"><i class="fas fa-map-marker-alt"></i> 1.8 km</div>
+                                    <div class="pharmacy-stock"><i class="fas fa-cubes"></i> Stock: 20 unidades</div>
+                                    <div class="pharmacy-lab"><i class="fas fa-flask"></i> Lab: Laboratorio Dr. Simi</div>
+                                </div>
+                            </label>
+                        </div>
+                        
+                        <div class="pharmacy-option">
+                            <input type="radio" name="pharmacy" id="pharmacy5">
+                            <label for="pharmacy5">
+                                <div class="pharmacy-option-header">
+                                    <div class="pharmacy-name">Farmacia Popular</div>
+                                    <div class="pharmacy-price">$4.290</div>
+                                </div>
+                                <div class="pharmacy-address">Av. Costanera 567, Puerto Montt</div>
+                                <div class="pharmacy-details">
+                                    <div class="pharmacy-distance"><i class="fas fa-map-marker-alt"></i> 4.2 km</div>
+                                    <div class="pharmacy-stock"><i class="fas fa-cubes"></i> Stock: 6 unidades</div>
+                                    <div class="pharmacy-lab"><i class="fas fa-flask"></i> Lab: Laboratorio Recalcine</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="product-actions">
+                        <div class="quantity-selector">
+                            <button class="quantity-btn" onclick="decrementQuantity()">-</button>
+                            <input type="text" class="quantity-input" id="quantity" value="1" readonly>
+                            <button class="quantity-btn" onclick="incrementQuantity()">+</button>
+                        </div>
+                        <button class="add-to-cart-btn" onclick="addToCart()"><i class="fas fa-shopping-cart"></i> Agregar al Carrito</button>
+                    </div>
+                    
+                    <!-- Notificación de producto agregado -->
+                    <div class="cart-notification" id="cartNotification">
+                        <div class="notification-content">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Producto agregado al carrito</span>
+                        </div>
+                    </div>
+                    
+                    <div class="product-details-tabs">
+                        <div class="tabs-header">
+                            <button class="tab-btn active" data-tab="description">Descripción</button>
+                            <button class="tab-btn" data-tab="usage">Modo de Uso</button>
+                            <button class="tab-btn" data-tab="warnings">Advertencias</button>
+                        </div>
+                        <div class="tab-content active" id="description">
+                            <h3>Descripción del Producto</h3>
+                            <p>El paracetamol (acetaminofén) es un medicamento analgésico y antipirético ampliamente utilizado para el alivio temporal de dolores leves a moderados y para reducir la fiebre.</p>
+                            <p>Este producto contiene 500mg de paracetamol por comprimido, en una presentación de 20 comprimidos.</p>
+                            <p>A diferencia de otros analgésicos, el paracetamol no causa irritación gástrica significativa, lo que lo hace adecuado para personas con sensibilidad estomacal.</p>
+                        </div>
+                        <div class="tab-content" id="usage">
+                            <h3>Modo de Uso</h3>
+                            <p>Adultos y niños mayores de 12 años:</p>
+                            <ul>
+                                <li>1-2 comprimidos cada 4-6 horas según sea necesario</li>
+                                <li>No exceder 8 comprimidos en 24 horas</li>
+                                <li>No usar por más de 5 días consecutivos sin consultar a un médico</li>
+                            </ul>
+                            <p>Se recomienda tomar con un vaso de agua. Puede tomarse con o sin alimentos.</p>
+                        </div>
+
+                        <div class="tab-content" id="warnings">
+                            <h3>Advertencias y Precauciones</h3>
+                            <ul>
+                                <li>No exceder la dosis recomendada</li>
+                                <li>El uso prolongado o excesivo puede causar daño hepático</li>
+                                <li>Consulte a su médico si está embarazada o en período de lactancia</li>
+                                <li>No usar en caso de enfermedad hepática grave</li>
+                                <li>No consumir alcohol mientras toma este medicamento</li>
+                                <li>Mantener fuera del alcance de los niños</li>
+                                <li>Almacenar en lugar fresco y seco, protegido de la luz</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="similar-products">
+        <div class="container">
+            <h2>Productos Similares</h2>
+            <div class="similar-products-grid">
+                <div class="product-card">
+                    <div class="discount-badge">-35%</div>
+                    <div class="product-image">
+                        <img src="images/products/ibuprofeno.png" alt="Ibuprofeno 400mg" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="producto.html" style="color: inherit; text-decoration: none;">Ibuprofeno 400mg</a></h3>
+                        <div class="product-availability">Disponible en 3 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$6.490</span>
+                            <span class="discounted-price">desde $4.220</span>
+                        </div>
+                        <div class="product-expiration">Vence: 22/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Antiinflamatorio</span>
+                            <span class="category-tag">Dolor muscular</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">-60%</div>
+                    <div class="product-image">
+                        <img src="images/products/loratadina.png" alt="Loratadina 10mg" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="producto.html" style="color: inherit; text-decoration: none;">Aspirina 500mg</a></h3>
+                        <div class="product-availability">Disponible en 7 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$4.990</span>
+                            <span class="discounted-price">desde $1.996</span>
+                        </div>
+                        <div class="product-expiration">Vence: 08/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Analgésico</span>
+                            <span class="category-tag">Antiinflamatorio</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">-25%</div>
+                    <div class="product-image">
+                        <img src="images/products/omeprazol.png" alt="Omeprazol 20mg" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="producto.html" style="color: inherit; text-decoration: none;">Paracetamol 1g</a></h3>
+                        <div class="product-availability">Disponible en 4 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$7.990</span>
+                            <span class="discounted-price">desde $5.993</span>
+                        </div>
+                        <div class="product-expiration">Vence: 20/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Analgésico</span>
+                            <span class="category-tag">Dolor intenso</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <div style="font-weight: bold; color: white; font-size: 1.5rem;">FarmaciaDescuento</div>
+                    </div>
+                    <p>Conectando farmacias y clientes para reducir mermas por vencimiento y ofrecer productos a precios accesibles.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="#">Categorías</a></li>
+                        <li><a href="#">Farmacias</a></li>
+                        <li><a href="#">Cómo Funciona</a></li>
+                        <li><a href="#">Registrarse</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Para Farmacias</h3>
+                    <ul>
+                        <li><a href="#">Registrar Farmacia</a></li>
+                        <li><a href="#">Beneficios</a></li>
+                        <li><a href="#">Panel de Control</a></li>
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                        <li><a href="#">Soporte</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Presidente Ibáñez 1234, Puerto Montt</li>
+                        <li><i class="fas fa-phone"></i> +56 2 2345 6789</li>
+                        <li><i class="fas fa-envelope"></i> contacto@farmaciadescuento.cl</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2025 FarmaciaDescuento. Todos los derechos reservados.
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Política de Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Tu Carrito</h3>
+            <button class="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-empty">
+            <i class="fas fa-shopping-cart"></i>
+            <p>Tu carrito está vacío</p>
+            <a href="#" class="btn-secondary">Explorar Productos</a>
+        </div>
+        <div class="cart-items" style="display: none;">
+            <!-- Cart items will be added here -->
+        </div>
+        <div class="cart-footer" style="display: none;">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-amount">$0</span>
+            </div>
+            <button class="btn-primary btn-checkout">Generar Ticket</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script>
+        // Funcionalidad de pestañas
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Funcionalidad del selector de cantidad
+        function incrementQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value);
+            const selectedPharmacy = document.querySelector('input[name="pharmacy"]:checked');
+            const stockText = selectedPharmacy.parentElement.querySelector('.pharmacy-stock').textContent;
+            const stockMatch = stockText.match(/(\d+)/);
+            const maxStock = stockMatch ? parseInt(stockMatch[1]) : 20;
+            
+            if (quantity < maxStock) {
+                quantityInput.value = quantity + 1;
+            }
+        }
+        
+        function decrementQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value);
+            
+            if (quantity > 1) {
+                quantityInput.value = quantity - 1;
+            }
+        }
+        
+        // Funcionalidad de agregar al carrito
+        function addToCart() {
+            const selectedPharmacy = document.querySelector('input[name="pharmacy"]:checked');
+            const pharmacyName = selectedPharmacy.parentElement.querySelector('.pharmacy-name').textContent;
+            const pharmacyPrice = selectedPharmacy.parentElement.querySelector('.pharmacy-price').textContent;
+            const productName = document.querySelector('.product-title').textContent;
+            const quantity = document.getElementById('quantity').value;
+            const cartCount = document.querySelector('.cart-count');
+            
+            // Actualizar contador del carrito
+            cartCount.textContent = parseInt(cartCount.textContent) + parseInt(quantity);
+            
+            // Mostrar notificación
+            const notification = document.getElementById('cartNotification');
+            notification.style.display = 'block';
+            
+            // Ocultar notificación después de 3 segundos
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+            
+            // Agregar producto al carrito lateral
+            addProductToCartSidebar(productName, pharmacyName, pharmacyPrice, quantity);
+            
+            // Abrir el carrito lateral
+            openCartSidebar();
+        }
+        
+        // Función para agregar producto al carrito lateral
+        function addProductToCartSidebar(productName, pharmacyName, price, quantity) {
+            const cartItems = document.querySelector('.cart-items');
+            const cartEmpty = document.querySelector('.cart-empty');
+            const cartFooter = document.querySelector('.cart-footer');
+            
+            // Ocultar mensaje de carrito vacío y mostrar footer
+            cartEmpty.style.display = 'none';
+            cartItems.style.display = 'block';
+            cartFooter.style.display = 'block';
+            
+            // Crear elemento de carrito
+            const cartItem = document.createElement('div');
+            cartItem.className = 'cart-item';
+            cartItem.innerHTML = `
+                <div class="cart-item-image">Med</div>
+                <div class="cart-item-details">
+                    <div class="cart-item-title">${productName}</div>
+                    <div class="cart-item-pharmacy">${pharmacyName}</div>
+                    <div class="cart-item-price">${price}</div>
+                    <div class="cart-item-quantity">
+                        <span>Cantidad: ${quantity}</span>
+                    </div>
+                </div>
+                <div class="cart-item-remove">
+                    <i class="fas fa-times"></i>
+                </div>
+            `;
+            
+            // Agregar al contenedor de items
+            cartItems.appendChild(cartItem);
+            
+            // Actualizar total
+            updateCartTotal();
+            
+            // Agregar evento para eliminar item
+            cartItem.querySelector('.cart-item-remove').addEventListener('click', function() {
+                cartItem.remove();
+                updateCartTotal();
+                
+                // Si no hay items, mostrar mensaje de carrito vacío
+                if (cartItems.children.length === 0) {
+                    cartEmpty.style.display = 'flex';
+                    cartItems.style.display = 'none';
+                    cartFooter.style.display = 'none';
+                }
+            });
+        }
+        
+        // Función para actualizar el total del carrito
+        function updateCartTotal() {
+            const cartItems = document.querySelectorAll('.cart-item');
+            let total = 0;
+            
+            cartItems.forEach(item => {
+                const priceText = item.querySelector('.cart-item-price').textContent;
+                const price = parseInt(priceText.replace(/[^0-9]/g, ''));
+                const quantityText = item.querySelector('.cart-item-quantity span').textContent;
+                const quantity = parseInt(quantityText.match(/(\d+)/)[0]);
+                
+                total += price * quantity;
+            });
+            
+            // Actualizar el total en el footer
+            document.querySelector('.total-amount').textContent = `$${total.toLocaleString()}`;
+        }
+        
+        // Funcionalidad para abrir/cerrar el carrito lateral
+        function openCartSidebar() {
+            document.getElementById('cartSidebar').classList.add('open');
+            document.getElementById('overlay').style.display = 'block';
+        }
+        
+        function closeCartSidebar() {
+            document.getElementById('cartSidebar').classList.remove('open');
+            document.getElementById('overlay').style.display = 'none';
+        }
+        
+        // Inicializar eventos para los botones de cantidad
+        document.querySelector('.quantity-btn:first-child').addEventListener('click', decrementQuantity);
+        document.querySelector('.quantity-btn:last-child').addEventListener('click', incrementQuantity);
+        
+        // Inicializar eventos para el carrito lateral
+        document.querySelector('.cart-icon').addEventListener('click', function(e) {
+            e.preventDefault();
+            openCartSidebar();
+        });
+        
+        document.querySelector('.close-cart').addEventListener('click', closeCartSidebar);
+        document.getElementById('overlay').addEventListener('click', closeCartSidebar);
+        
+        // Inicializar evento para el botón de checkout
+        document.querySelector('.btn-checkout').addEventListener('click', function() {
+            alert('Generando ticket de descuento...');
+            window.location.href = 'mis-tickets.html';
+        });
+        
+        // Función para cambiar la imagen principal
+        function changeMainImage(imageUrl) {
+            document.getElementById('mainProductImage').src = imageUrl;
+            
+            // Actualizar miniatura activa
+            const thumbnails = document.querySelectorAll('.product-thumbnail');
+            thumbnails.forEach(thumb => {
+                if (thumb.querySelector('img').src === imageUrl) {
+                    thumb.classList.add('active');
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+        }
+        
+        // Inicializar la primera miniatura como activa
+        document.querySelector('.product-thumbnail').classList.add('active');
+    </script>
+</body>
+</html>

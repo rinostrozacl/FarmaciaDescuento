@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorías - FarmaciaDescuento</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        .categories-page {
+            padding: 50px 0;
+            background-color: var(--light-color);
+        }
+        
+        .categories-page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--secondary-color);
+        }
+        
+        .categories-page-subtitle {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: var(--gray-dark);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .category-types {
+            margin-bottom: 40px;
+        }
+        
+        .category-type {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .category-type-title {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .category-type-title i {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+        
+        .category-type-description {
+            margin-bottom: 30px;
+            color: var(--gray-dark);
+            line-height: 1.6;
+        }
+        
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .category-card {
+            background-color: var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .category-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            z-index: 2;
+        }
+        
+        .category-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #e0e0e0;
+            opacity: 0.2;
+            transition: var(--transition);
+        }
+        
+        .category-card:hover .category-image {
+            opacity: 0.3;
+        }
+        
+        .category-card h3 {
+            font-size: 1.1rem;
+            z-index: 2;
+        }
+        
+        .category-stats {
+            font-size: 0.9rem;
+            color: var(--gray-dark);
+            margin-top: 5px;
+            z-index: 2;
+        }
+        
+        .breadcrumb {
+            padding: 15px 0;
+            background-color: var(--light-color);
+        }
+        
+        .breadcrumb-list {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .breadcrumb-list li {
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb-list li:not(:last-child)::after {
+            content: '>';
+            margin: 0 10px;
+            color: var(--gray-dark);
+        }
+        
+        .breadcrumb-list li:last-child {
+            color: var(--gray-dark);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div style="font-weight: bold; color: #4ECDC4; font-size: 1.5rem;">FarmaciaDescuento</div>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar medicamentos, productos...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="categorias.html" class="active">Categorías</a></li>
+                    <li><a href="#">Farmacias</a></li>
+                    <li><a href="mis-tickets.html">Mis Tickets</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <a href="#" class="btn-login">Iniciar Sesión</a>
+                <a href="#" class="btn-register">Registrarse</a>
+                <a href="#" class="cart-icon"><i class="fas fa-shopping-cart"></i> <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <section class="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb-list">
+                <li><a href="index.html">Inicio</a></li>
+                <li>Categorías</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="categories-page">
+        <div class="container">
+            <h1 class="categories-page-title">Categorías de Productos</h1>
+            <p class="categories-page-subtitle">Explora nuestras categorías de productos farmacéuticos con descuento. Puedes navegar por uso terapéutico, compuesto activo o forma farmacéutica.</p>
+            
+            <div class="category-types">
+                <div class="category-type">
+                    <h2 class="category-type-title"><i class="fas fa-heartbeat"></i> Por Uso Terapéutico</h2>
+                    <p class="category-type-description">Encuentra medicamentos según su uso terapéutico o el tipo de condición que tratan.</p>
+                    
+                    <div class="categories-grid">
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-head-side-cough"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Resfriado y Gripe</h3>
+                            <div class="category-stats">24 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-head-side-virus"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Dolor de Cabeza</h3>
+                            <div class="category-stats">18 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-pills"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Sistema Digestivo</h3>
+                            <div class="category-stats">32 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-allergies"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Alergias</h3>
+                            <div class="category-stats">15 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-heartbeat"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Presión Arterial</h3>
+                            <div class="category-stats">12 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-eye"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Oftálmicos</h3>
+                            <div class="category-stats">9 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-tooth"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Salud Bucal</h3>
+                            <div class="category-stats">14 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-brain"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Sistema Nervioso</h3>
+                            <div class="category-stats">21 productos</div>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="category-type">
+                    <h2 class="category-type-title"><i class="fas fa-flask"></i> Por Compuesto Activo</h2>
+                    <p class="category-type-description">Busca medicamentos según su principio activo o compuesto genérico.</p>
+                    
+                    <div class="categories-grid">
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-tablets"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Paracetamol</h3>
+                            <div class="category-stats">16 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-tablets"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Ibuprofeno</h3>
+                            <div class="category-stats">12 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-tablets"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Aspirina</h3>
+                            <div class="category-stats">8 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-tablets"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Loratadina</h3>
+                            <div class="category-stats">7 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-tablets"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Omeprazol</h3>
+                            <div class="category-stats">9 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-tablets"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Amoxicilina</h3>
+                            <div class="category-stats">11 productos</div>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="category-type">
+                    <h2 class="category-type-title"><i class="fas fa-capsules"></i> Por Forma Farmacéutica</h2>
+                    <p class="category-type-description">Encuentra medicamentos según su presentación o forma farmacéutica.</p>
+                    
+                    <div class="categories-grid">
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-tablets"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Comprimidos</h3>
+                            <div class="category-stats">45 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-capsules"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Cápsulas</h3>
+                            <div class="category-stats">28 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-prescription-bottle"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Jarabes</h3>
+                            <div class="category-stats">17 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-spray-can"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Aerosoles</h3>
+                            <div class="category-stats">9 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-eye-dropper"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Gotas</h3>
+                            <div class="category-stats">12 productos</div>
+                        </a>
+                        <a href="categoria.html" class="category-card">
+                            <div class="category-icon"><i class="fas fa-prescription-bottle-alt"></i></div>
+                            <div class="category-image"></div>
+                            <h3>Cremas y Ungüentos</h3>
+                            <div class="category-stats">19 productos</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <div style="font-weight: bold; color: white; font-size: 1.5rem;">FarmaciaDescuento</div>
+                    </div>
+                    <p>Conectando farmacias y clientes para reducir mermas por vencimiento y ofrecer productos a precios accesibles.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="categorias.html">Categorías</a></li>
+                        <li><a href="#">Farmacias</a></li>
+                        <li><a href="#">Cómo Funciona</a></li>
+                        <li><a href="#">Registrarse</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Para Farmacias</h3>
+                    <ul>
+                        <li><a href="#">Registrar Farmacia</a></li>
+                        <li><a href="#">Beneficios</a></li>
+                        <li><a href="#">Panel de Control</a></li>
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                        <li><a href="#">Soporte</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Presidente Ibáñez 1234, Puerto Montt</li>
+                        <li><i class="fas fa-phone"></i> +56 2 2345 6789</li>
+                        <li><i class="fas fa-envelope"></i> contacto@farmaciadescuento.cl</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2025 FarmaciaDescuento. Todos los derechos reservados.
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Política de Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

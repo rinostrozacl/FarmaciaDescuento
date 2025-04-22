@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmaciaDescuento - Conectando farmacias y clientes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div style="font-weight: bold; color: #4ECDC4; font-size: 1.5rem;">FarmaciaDescuento</div>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar medicamentos, productos...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Inicio</a></li>
+                    <li><a href="categorias.html">Categorías</a></li>
+                    <li><a href="#">Farmacias</a></li>
+                    <li><a href="mis-tickets.html">Mis Tickets</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <a href="#" class="btn-login">Iniciar Sesión</a>
+                <a href="#" class="btn-register">Registrarse</a>
+                <a href="#" class="cart-icon"><i class="fas fa-shopping-cart"></i> <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Medicamentos con descuento, <br>cerca de ti</h1>
+                <p>Conectamos farmacias y clientes para reducir mermas por vencimiento y ofrecer productos a precios accesibles.</p>
+                <div class="hero-buttons">
+                    <a href="categoria.html" class="btn-primary">Buscar Productos</a>
+                    <a href="#" class="btn-secondary">¿Cómo Funciona?</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div style="background-color: #e0e0e0; height: 300px; width: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #888;">Imagen Hero</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="category-nav">
+        <div class="container">
+            <h2>Explorar por Categorías</h2>
+            <div class="category-tabs">
+                <button class="tab active" data-view="use">Por Uso</button>
+                <button class="tab" data-view="compound">Por Compuesto</button>
+                <button class="tab" data-view="form">Por Forma</button>
+            </div>
+            <div class="categories-grid">
+                <a href="categoria.html" class="category-card">
+                    <div class="category-icon"><i class="fas fa-head-side-cough"></i></div>
+                    <div style="background-color: #e0e0e0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.2;" class="category-image"></div>
+                    <h3>Resfriado</h3>
+                </a>
+                <a href="categoria.html" class="category-card">
+                    <div class="category-icon"><i class="fas fa-head-side-virus"></i></div>
+                    <img src="images/categories/dolor-cabeza.jpg" alt="Dolor de cabeza" class="category-image">
+                    <h3>Dolor de Cabeza</h3>
+                </a>
+                <a href="categoria.html" class="category-card">
+                    <div class="category-icon"><i class="fas fa-pills"></i></div>
+                    <img src="images/categories/digestivo.jpg" alt="Sistema digestivo" class="category-image">
+                    <h3>Sistema Digestivo</h3>
+                </a>
+                <a href="categoria.html" class="category-card">
+                    <div class="category-icon"><i class="fas fa-allergies"></i></div>
+                    <img src="images/categories/alergias.jpg" alt="Alergias" class="category-image">
+                    <h3>Alergias</h3>
+                </a>
+                <a href="categoria.html" class="category-card">
+                    <div class="category-icon"><i class="fas fa-heartbeat"></i></div>
+                    <img src="images/categories/presion.jpg" alt="Presión arterial" class="category-image">
+                    <h3>Presión Arterial</h3>
+                </a>
+                <a href="categoria.html" class="category-card">
+                    <div class="category-icon"><i class="fas fa-eye"></i></div>
+                    <img src="images/categories/oftalmicos.jpg" alt="Oftálmicos" class="category-image">
+                    <h3>Oftálmicos</h3>
+                </a>
+                <a href="categoria.html" class="category-card view-all">
+                    <div class="category-icon"><i class="fas fa-th-large"></i></div>
+                    <h3>Ver Todas</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="products">
+        <div class="container">
+            <div class="section-header">
+                <h2>Productos con Descuento Cerca de Ti</h2>
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Puerto Montt Centro</span>
+                    <button class="change-location">Cambiar</button>
+                </div>
+            </div>
+            
+            <div class="filter-container">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Distancia</label>
+                        <select>
+                            <option>Menos de 1 km</option>
+                            <option selected>Menos de 5 km</option>
+                            <option>Menos de 10 km</option>
+                            <option>Cualquier distancia</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Descuento</label>
+                        <select>
+                            <option>Cualquier descuento</option>
+                            <option>Más del 20%</option>
+                            <option selected>Más del 30%</option>
+                            <option>Más del 50%</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Vencimiento</label>
+                        <select>
+                            <option selected>Cualquier fecha</option>
+                            <option>Próximos 7 días</option>
+                            <option>Próximos 15 días</option>
+                            <option>Próximo mes</option>
+                        </select>
+                    </div>
+                    <button class="btn-filter">Aplicar Filtros</button>
+                </div>
+            </div>
+
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="discount-badge">-40%</div>
+                    <div class="product-image">
+                        <img src="images/products/paracetamol.png" alt="Paracetamol 500mg" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="producto.html" style="color: inherit; text-decoration: none;">Paracetamol 500mg</a></h3>
+                        <div class="product-availability">Disponible en 5 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$5.990</span>
+                            <span class="discounted-price">desde $3.590</span>
+                        </div>
+                        <div class="product-expiration">Vence: 15/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Analgésico</span>
+                            <span class="category-tag">Dolor de cabeza</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">-35%</div>
+                    <div class="product-image">
+                        <img src="images/products/ibuprofeno.png" alt="Ibuprofeno 400mg" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="producto.html" style="color: inherit; text-decoration: none;">Ibuprofeno 400mg</a></h3>
+                        <div class="product-availability">Disponible en 3 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$6.490</span>
+                            <span class="discounted-price">desde $4.220</span>
+                        </div>
+                        <div class="product-expiration">Vence: 22/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Antiinflamatorio</span>
+                            <span class="category-tag">Dolor muscular</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">-50%</div>
+                    <div class="product-image">
+                        <img src="images/products/loratadina.png" alt="Loratadina 10mg" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="producto.html" style="color: inherit; text-decoration: none;">Loratadina 10mg</a></h3>
+                        <div class="product-availability">Disponible en 4 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$7.990</span>
+                            <span class="discounted-price">desde $3.995</span>
+                        </div>
+                        <div class="product-expiration">Vence: 10/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Antialérgico</span>
+                            <span class="category-tag">Alergias</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">-45%</div>
+                    <div class="product-image">
+                        <img src="images/products/omeprazol.png" alt="Omeprazol 20mg" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="producto.html" style="color: inherit; text-decoration: none;">Omeprazol 20mg</a></h3>
+                        <div class="product-availability">Disponible en 6 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$8.990</span>
+                            <span class="discounted-price">desde $4.945</span>
+                        </div>
+                        <div class="product-expiration">Vence: 18/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Antiácido</span>
+                            <span class="category-tag">Sistema digestivo</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">-30%</div>
+                    <div style="background-color: #e0e0e0; height: 180px; display: flex; align-items: center; justify-content: center; color: #888;" class="product-image">Vitamina C</div>
+                    <div class="product-info">
+                        <h3><a href="producto.html" style="color: inherit; text-decoration: none;">Vitamina C 1000mg</a></h3>
+                        <div class="product-availability">Disponible en 2 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$9.990</span>
+                            <span class="discounted-price">desde $6.993</span>
+                        </div>
+                        <div class="product-expiration">Vence: 25/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Vitaminas</span>
+                            <span class="category-tag">Suplementos</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">-60%</div>
+                    <div style="background-color: #e0e0e0; height: 180px; display: flex; align-items: center; justify-content: center; color: #888;" class="product-image">Aspirina</div>
+                    <div class="product-info">
+                        <h3><a href="producto.html" style="color: inherit; text-decoration: none;">Aspirina 500mg</a></h3>
+                        <div class="product-availability">Disponible en 7 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$4.990</span>
+                            <span class="discounted-price">desde $1.996</span>
+                        </div>
+                        <div class="product-expiration">Vence: 08/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Analgésico</span>
+                            <span class="category-tag">Antiinflamatorio</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="load-more">
+                <button class="btn-load-more">Cargar Más Productos</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <div class="container">
+            <h2>¿Cómo Funciona?</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Busca</h3>
+                    <p>Encuentra productos con descuento cerca de ti, organizados por categorías o compuestos.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Selecciona</h3>
+                    <p>Agrega productos a tu carrito y genera un ticket de descuento válido por 24 horas.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h3>Genera</h3>
+                    <p>Recibe tu ticket con código QR por correo electrónico o guárdalo en la app.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Visita</h3>
+                    <p>Acude a la farmacia y presenta tu ticket para validación.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <h3>Ahorra</h3>
+                    <p>Obtén el descuento en tus productos y contribuye a reducir el desperdicio.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="join-pharmacies">
+        <div class="container">
+            <div class="join-content">
+                <h2>¿Eres una Farmacia?</h2>
+                <p>Únete a nuestra plataforma y reduce tus mermas por vencimiento mientras atraes nuevos clientes.</p>
+                <ul class="benefits">
+                    <li><i class="fas fa-check-circle"></i> Reduce pérdidas por productos vencidos</li>
+                    <li><i class="fas fa-check-circle"></i> Atrae nuevos clientes a tu farmacia</li>
+                    <li><i class="fas fa-check-circle"></i> Gestiona fácilmente tus productos con descuento</li>
+                    <li><i class="fas fa-check-circle"></i> Contribuye a la sostenibilidad y acceso a medicamentos</li>
+                </ul>
+                <a href="#" class="btn-primary">Registrar mi Farmacia</a>
+            </div>
+            <div class="join-image">
+                <div style="background-color: #e0e0e0; height: 300px; width: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #888;">Imagen Farmacéutico</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <div style="font-weight: bold; color: white; font-size: 1.5rem;">FarmaciaDescuento</div>
+                    </div>
+                    <p>Conectando farmacias y clientes para reducir mermas por vencimiento y ofrecer productos a precios accesibles.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="#">Categorías</a></li>
+                        <li><a href="#">Farmacias</a></li>
+                        <li><a href="#">Cómo Funciona</a></li>
+                        <li><a href="#">Registrarse</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Para Farmacias</h3>
+                    <ul>
+                        <li><a href="#">Registrar Farmacia</a></li>
+                        <li><a href="#">Beneficios</a></li>
+                        <li><a href="#">Panel de Control</a></li>
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                        <li><a href="#">Soporte</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Presidente Ibáñez 1234, Puerto Montt</li>
+                        <li><i class="fas fa-phone"></i> +56 2 2345 6789</li>
+                        <li><i class="fas fa-envelope"></i> contacto@farmaciadescuento.cl</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2025 FarmaciaDescuento. Todos los derechos reservados.
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Política de Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Tu Carrito</h3>
+            <button class="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-empty">
+            <i class="fas fa-shopping-cart"></i>
+            <p>Tu carrito está vacío</p>
+            <a href="#" class="btn-secondary">Explorar Productos</a>
+        </div>
+        <div class="cart-items" style="display: none;">
+            <!-- Cart items will be added here -->
+        </div>
+        <div class="cart-footer" style="display: none;">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-amount">$0</span>
+            </div>
+            <button class="btn-primary btn-checkout">Generar Ticket</button>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Iniciar Sesión</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form class="login-form">
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" placeholder="Ingresa tu correo electrónico">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" placeholder="Ingresa tu contraseña">
+                    </div>
+                    <div class="form-actions">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">Recordarme</label>
+                        </div>
+                        <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <button type="submit" class="btn-primary btn-full">Iniciar Sesión</button>
+                </form>
+                <div class="login-separator">
+                    <span>o</span>
+                </div>
+                <div class="social-login">
+                    <button class="btn-google"><i class="fab fa-google"></i> Continuar con Google</button>
+                    <button class="btn-facebook"><i class="fab fa-facebook-f"></i> Continuar con Facebook</button>
+                </div>
+                <div class="register-link">
+                    ¿No tienes cuenta? <a href="#">Regístrate</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analgésicos - FarmaciaDescuento</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        .category-header {
+            padding: 40px 0;
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .category-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .category-description {
+            max-width: 800px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .subcategories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .subcategory-tag {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        
+        .subcategory-tag:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        
+        .subcategory-tag.active {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        .filter-bar {
+            background-color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-top: -30px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .filter-label {
+            margin-right: 10px;
+            font-weight: 500;
+        }
+        
+        .sort-options {
+            margin-left: auto;
+        }
+        
+        .category-products {
+            padding: 50px 0;
+            background-color: var(--gray-light);
+        }
+        
+        .category-info-box {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+        }
+        
+        .category-info-box h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        .category-info-box p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .related-categories {
+            padding: 50px 0;
+            background-color: white;
+        }
+        
+        .related-categories h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+        }
+        
+        .related-categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .related-category-card {
+            background-color: var(--gray-light);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .related-category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .related-category-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .related-category-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        
+        .related-category-card p {
+            color: var(--gray-dark);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .breadcrumb {
+            padding: 15px 0;
+            background-color: var(--light-color);
+        }
+        
+        .breadcrumb-list {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .breadcrumb-list li {
+            display: flex;
+            align-items: center;
+        }
+        
+        .breadcrumb-list li:not(:last-child)::after {
+            content: '>';
+            margin: 0 10px;
+            color: var(--gray-dark);
+        }
+        
+        .breadcrumb-list li:last-child {
+            color: var(--gray-dark);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div style="font-weight: bold; color: #4ECDC4; font-size: 1.5rem;">FarmaciaDescuento</div>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar medicamentos, productos...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="categorias.html" class="active">Categorías</a></li>
+                    <li><a href="#">Farmacias</a></li>
+                    <li><a href="mis-tickets.html">Mis Tickets</a></li>
+                </ul>
+            </nav>
+            <div class="user-actions">
+                <a href="#" class="btn-login">Iniciar Sesión</a>
+                <a href="#" class="btn-register">Registrarse</a>
+                <a href="#" class="cart-icon"><i class="fas fa-shopping-cart"></i> <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <section class="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb-list">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="#">Categorías</a></li>
+                <li>Analgésicos</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="category-header">
+        <div class="container">
+            <h1 class="category-title">Analgésicos</h1>
+            <p class="category-description">Medicamentos diseñados para aliviar el dolor de leve a moderado, actuando sobre el sistema nervioso central y periférico para reducir la sensación de dolor.</p>
+            <div class="subcategories">
+                <a href="#" class="subcategory-tag active">Todos</a>
+                <a href="#" class="subcategory-tag">Paracetamol</a>
+                <a href="#" class="subcategory-tag">Ibuprofeno</a>
+                <a href="#" class="subcategory-tag">Aspirina</a>
+                <a href="#" class="subcategory-tag">Naproxeno</a>
+                <a href="#" class="subcategory-tag">Diclofenaco</a>
+                <a href="#" class="subcategory-tag">Otros</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="filter-bar">
+            <div class="filter-container">
+                <div class="filter-group">
+                    <span class="filter-label">Descuento:</span>
+                    <select>
+                        <option>Cualquier descuento</option>
+                        <option>Más del 20%</option>
+                        <option selected>Más del 30%</option>
+                        <option>Más del 50%</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Farmacia:</span>
+                    <select>
+                        <option selected>Todas las farmacias</option>
+                        <option>Farmacia San Pablo</option>
+                        <option>Farmacia Ahumada</option>
+                        <option>Farmacia Cruz Verde</option>
+                        <option>Farmacia Salcobrand</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Vencimiento:</span>
+                    <select>
+                        <option selected>Cualquier fecha</option>
+                        <option>Próximos 7 días</option>
+                        <option>Próximos 15 días</option>
+                        <option>Próximo mes</option>
+                    </select>
+                </div>
+                <div class="sort-options">
+                    <span class="filter-label">Ordenar por:</span>
+                    <select>
+                        <option selected>Mayor descuento</option>
+                        <option>Menor precio</option>
+                        <option>Fecha de vencimiento</option>
+                        <option>Popularidad</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="category-products">
+        <div class="container">
+            <div class="category-info-box">
+                <h3>Sobre los Analgésicos</h3>
+                <p>Los analgésicos son medicamentos que alivian o reducen el dolor. Existen diferentes tipos de analgésicos que funcionan de diversas maneras. Los analgésicos no opioides, como el paracetamol y los antiinflamatorios no esteroideos (AINEs) como el ibuprofeno, son los más comunes y se utilizan para dolores leves a moderados.</p>
+                <p>Es importante seguir las instrucciones de dosificación y tener en cuenta las advertencias y contraindicaciones de cada medicamento. Algunos analgésicos pueden interactuar con otros medicamentos o no ser adecuados para personas con ciertas condiciones médicas.</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="discount-badge">-40%</div>
+                    <div class="product-image">
+                        <img src="images/products/paracetamol.png" alt="Paracetamol 500mg" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="producto.html">Paracetamol 500mg</a></h3>
+                        <div class="product-availability">Disponible en 5 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$5.990</span>
+                            <span class="discounted-price">desde $3.590</span>
+                        </div>
+                        <div class="product-expiration">Vence: 15/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Analgésico</span>
+                            <span class="category-tag">Dolor de cabeza</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">-35%</div>
+                    <div class="product-image">
+                        <img src="images/products/ibuprofeno.png" alt="Ibuprofeno 400mg" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="producto.html">Ibuprofeno 400mg</a></h3>
+                        <div class="product-availability">Disponible en 3 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$6.490</span>
+                            <span class="discounted-price">desde $4.220</span>
+                        </div>
+                        <div class="product-expiration">Vence: 22/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Antiinflamatorio</span>
+                            <span class="category-tag">Dolor muscular</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">-60%</div>
+                    <div class="product-image">
+                        <img src="images/products/loratadina.png" alt="Loratadina 10mg" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="producto.html">Aspirina 500mg</a></h3>
+                        <div class="product-availability">Disponible en 7 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$4.990</span>
+                            <span class="discounted-price">desde $1.996</span>
+                        </div>
+                        <div class="product-expiration">Vence: 08/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Analgésico</span>
+                            <span class="category-tag">Antiinflamatorio</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">-25%</div>
+                    <div class="product-image">
+                        <img src="images/products/paracetamol.png" alt="Paracetamol 500mg" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="producto.html">Paracetamol 1g</a></h3>
+                        <div class="product-availability">Disponible en 4 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$7.990</span>
+                            <span class="discounted-price">desde $5.993</span>
+                        </div>
+                        <div class="product-expiration">Vence: 20/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Analgésico</span>
+                            <span class="category-tag">Dolor intenso</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">-45%</div>
+                    <div class="product-image">
+                        <img src="images/products/omeprazol.png" alt="Naproxeno 550mg" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="producto.html">Naproxeno 550mg</a></h3>
+                        <div class="product-availability">Disponible en 6 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$8.990</span>
+                            <span class="discounted-price">desde $4.945</span>
+                        </div>
+                        <div class="product-expiration">Vence: 18/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Antiinflamatorio</span>
+                            <span class="category-tag">Dolor articular</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="discount-badge">-30%</div>
+                    <div class="product-image">
+                        <img src="images/products/ibuprofeno.png" alt="Diclofenaco 50mg" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="producto.html">Diclofenaco 50mg</a></h3>
+                        <div class="product-availability">Disponible en 3 farmacias</div>
+                        <div class="product-price">
+                            <span class="original-price">$5.990</span>
+                            <span class="discounted-price">desde $4.193</span>
+                        </div>
+                        <div class="product-expiration">Vence: 25/05/2025</div>
+                        <div class="product-categories">
+                            <span class="category-tag">Antiinflamatorio</span>
+                            <span class="category-tag">Dolor muscular</span>
+                        </div>
+                        <a href="producto.html" class="btn-view-offers">Ver Ofertas</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="load-more">
+                <button class="btn-load-more">Cargar Más Productos</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="related-categories">
+        <div class="container">
+            <h2>Categorías Relacionadas</h2>
+            <div class="related-categories-grid">
+                <a href="#" class="related-category-card">
+                    <div class="related-category-icon">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                    <h3>Antiinflamatorios</h3>
+                    <p>Reducen la inflamación y alivian el dolor</p>
+                </a>
+                <a href="#" class="related-category-card">
+                    <div class="related-category-icon">
+                        <i class="fas fa-thermometer-half"></i>
+                    </div>
+                    <h3>Antipiréticos</h3>
+                    <p>Reducen la fiebre y controlan la temperatura</p>
+                </a>
+                <a href="#" class="related-category-card">
+                    <div class="related-category-icon">
+                        <i class="fas fa-head-side-virus"></i>
+                    </div>
+                    <h3>Migrañas</h3>
+                    <p>Específicos para dolores de cabeza intensos</p>
+                </a>
+                <a href="#" class="related-category-card">
+                    <div class="related-category-icon">
+                        <i class="fas fa-bone"></i>
+                    </div>
+                    <h3>Dolor Articular</h3>
+                    <p>Para dolores en articulaciones y huesos</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <div class="footer-logo">
+                        <div style="font-weight: bold; color: white; font-size: 1.5rem;">FarmaciaDescuento</div>
+                    </div>
+                    <p>Conectando farmacias y clientes para reducir mermas por vencimiento y ofrecer productos a precios accesibles.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="#">Categorías</a></li>
+                        <li><a href="#">Farmacias</a></li>
+                        <li><a href="#">Cómo Funciona</a></li>
+                        <li><a href="#">Registrarse</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Para Farmacias</h3>
+                    <ul>
+                        <li><a href="#">Registrar Farmacia</a></li>
+                        <li><a href="#">Beneficios</a></li>
+                        <li><a href="#">Panel de Control</a></li>
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                        <li><a href="#">Soporte</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Presidente Ibáñez 1234, Puerto Montt</li>
+                        <li><i class="fas fa-phone"></i> +56 2 2345 6789</li>
+                        <li><i class="fas fa-envelope"></i> contacto@farmaciadescuento.cl</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    &copy; 2025 FarmaciaDescuento. Todos los derechos reservados.
+                </div>
+                <div class="footer-links">
+                    <a href="#">Términos y Condiciones</a>
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Política de Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Filter functionality
+        const subcategoryTags = document.querySelectorAll('.subcategory-tag');
+        
+        subcategoryTags.forEach(tag => {
+            tag.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Remove active class from all tags
+                subcategoryTags.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tag
+                tag.classList.add('active');
+            });
+        });
+        
+        // Add to cart functionality
+        const addToCartButtons = document.querySelectorAll('.btn-add-cart');
+        
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('h3').textContent;
+                
+                alert(`Se ha agregado ${productName} al carrito`);
+                
+                // Update cart count
+                const cartCount = document.querySelector('.cart-count');
+                cartCount.textContent = parseInt(cartCount.textContent) + 1;
+            });
+        });
+    </script>
+</body>
+</html>
