@@ -1,0 +1,36 @@
+# Archivos de configuración del sistema
+.DS_Store
+Thumbs.db
+
+# Entornos virtuales
+venv/
+env/
+.env
+
+# Archivos de caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Archivos de distribución
+dist/
+build/
+*.egg-info/
+
+# Archivos de logs
+logs/
+*.log
+
+# Archivos de base de datos local
+*.db
+*.sqlite3
+
+# Archivos de configuración IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Archivos de dependencias
+node_modules/
