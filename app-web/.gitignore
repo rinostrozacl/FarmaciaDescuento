@@ -12,13 +12,68 @@ node_modules
 # Logs
 logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+firebase-debug.log*
+firebase-debug.*.log*
+ui-debug.log*
 
 # Misc
 .DS_Store
 .fleet
 .idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+Thumbs.db
 
 # Local env files
 .env
 .env.*
 !.env.example
+
+# Firebase
+.firebase/
+firebase-debug.log
+.firebaserc
+firebase.json
+firebase-adminsdk-*.json
+*firebase*.json
+!firebase.client.ts
+
+# Service workers
+sw.*
+workbox-*
+*-sw.js
+
+# Vercel
+.vercel
+
+# Netlify
+.netlify
+
+# Runtime files
+.runtime
+.temp
+.tmp
+
+# Coverage reports
+coverage
+.coverage
+*.lcov
+
+# Cypress
+cypress/videos
+cypress/screenshots
+
+# Storybook
+storybook-static
+
+# Generated files
+*.generated.*
+generated/
