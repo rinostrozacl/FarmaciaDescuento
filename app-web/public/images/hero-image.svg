@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="400" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo con forma ondulada -->
+  <path d="M0 0H600V320C600 320 550 380 450 380C350 380 300 340 200 340C100 340 0 380 0 380V0Z" fill="#4ECDC4" opacity="0.1"/>
+  
+  <!-- Círculo decorativo -->
+  <circle cx="450" cy="100" r="70" fill="#4ECDC4" opacity="0.2"/>
+  
+  <!-- Farmacia (edificio) -->
+  <rect x="150" y="130" width="300" height="200" rx="8" fill="#F7FFF7" stroke="#1A535C" stroke-width="3"/>
+  <rect x="190" y="190" width="80" height="140" fill="#4ECDC4" stroke="#1A535C" stroke-width="2"/>
+  <rect x="330" y="190" width="80" height="140" fill="#4ECDC4" stroke="#1A535C" stroke-width="2"/>
+  <rect x="280" y="220" width="40" height="110" fill="#F7FFF7" stroke="#1A535C" stroke-width="2"/>
+  
+  <!-- Letrero de farmacia -->
+  <rect x="220" y="100" width="160" height="50" rx="6" fill="#1A535C"/>
+  <rect x="240" y="115" width="120" height="20" rx="4" fill="#F7FFF7"/>
+  <path d="M260 125H340" stroke="#1A535C" stroke-width="2"/>
+  
+  <!-- Cruz de farmacia -->
+  <rect x="295" y="60" width="10" height="30" rx="2" fill="#FF6B6B"/>
+  <rect x="285" y="70" width="30" height="10" rx="2" fill="#FF6B6B"/>
+  
+  <!-- Iconos de descuento -->
+  <circle cx="400" cy="280" r="30" fill="#F7FFF7" stroke="#FF6B6B" stroke-width="2" stroke-dasharray="4 2"/>
+  <text x="385" y="288" font-family="Arial" font-size="20" font-weight="bold" fill="#FF6B6B">%</text>
+  
+  <circle cx="470" cy="230" r="25" fill="#F7FFF7" stroke="#FF6B6B" stroke-width="2" stroke-dasharray="4 2"/>
+  <text x="458" y="238" font-family="Arial" font-size="18" font-weight="bold" fill="#FF6B6B">%</text>
+  
+  <!-- Personas estilizadas -->
+  <circle cx="100" cy="300" r="20" fill="#1A535C"/>
+  <rect x="90" y="320" width="20" height="60" rx="4" fill="#1A535C"/>
+  <rect x="75" y="340" width="15" height="40" rx="4" fill="#1A535C"/>
+  <rect x="110" y="340" width="15" height="40" rx="4" fill="#1A535C"/>
+  
+  <!-- Persona estilizada más pequeña -->
+  <circle cx="140" cy="320" r="15" fill="#4ECDC4"/>
+  <rect x="132" y="335" width="16" height="40" rx="3" fill="#4ECDC4"/>
+  <rect x="120" y="350" width="12" height="25" rx="3" fill="#4ECDC4"/>
+  <rect x="148" y="350" width="12" height="25" rx="3" fill="#4ECDC4"/>
+</svg> 

@@ -1,0 +1,519 @@
+<template>
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8">
+      Productos con Descuento
+    </h1>
+
+    <!-- Buscador y filtros -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex-1">
+          <label
+            for="search"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Buscar productos</label
+          >
+          <div class="relative">
+            <input
+              id="search"
+              v-model="searchQuery"
+              type="text"
+              placeholder="Nombre del producto, marca, etc."
+              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+            />
+            <span
+              class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            >
+              🔍
+            </span>
+          </div>
+        </div>
+        <div class="w-full md:w-48">
+          <label
+            for="category"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Categoría</label
+          >
+          <select
+            id="category"
+            v-model="selectedCategory"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+          >
+            <option value="">Todas las categorías</option>
+            <option
+              v-for="category in categories"
+              :key="category"
+              :value="category"
+            >
+              {{ category }}
+            </option>
+          </select>
+        </div>
+        <div class="w-full md:w-48">
+          <label
+            for="sortBy"
+            class="block text-sm font-medium text-gray-700 mb-1"
+            >Ordenar por</label
+          >
+          <select
+            id="sortBy"
+            v-model="sortBy"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+          >
+            <option value="discount">Mayor descuento</option>
+            <option value="expiry">Próximos a vencer</option>
+            <option value="priceAsc">Precio: menor a mayor</option>
+            <option value="priceDesc">Precio: mayor a menor</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="flex flex-wrap gap-2">
+          <button
+            @click="toggleFilter('highDiscount')"
+            :class="[
+              'px-3 py-1 rounded-full text-sm font-medium transition-colors',
+              filters.highDiscount
+                ? 'bg-green-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+            ]"
+          >
+            Descuentos +50%
+          </button>
+          <button
+            @click="toggleFilter('freeDelivery')"
+            :class="[
+              'px-3 py-1 rounded-full text-sm font-medium transition-colors',
+              filters.freeDelivery
+                ? 'bg-green-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+            ]"
+          >
+            Envío gratis
+          </button>
+          <button
+            @click="toggleFilter('nearExpiry')"
+            :class="[
+              'px-3 py-1 rounded-full text-sm font-medium transition-colors',
+              filters.nearExpiry
+                ? 'bg-green-600 text-white'
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
+            ]"
+          >
+            Próximos a vencer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rango de precio -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <h3 class="text-lg font-medium text-gray-700 mb-4">Rango de precio</h3>
+      <div class="flex flex-col md:flex-row items-center gap-4">
+        <div class="w-full flex items-center gap-2">
+          <input
+            v-model="priceRange.min"
+            type="range"
+            :min="0"
+            :max="maxPrice"
+            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+          />
+          <span class="text-sm text-gray-600 w-16"
+            >${{ formatPrice(priceRange.min) }}</span
+          >
+        </div>
+        <div class="w-full flex items-center gap-2">
+          <input
+            v-model="priceRange.max"
+            type="range"
+            :min="0"
+            :max="maxPrice"
+            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+          />
+          <span class="text-sm text-gray-600 w-16"
+            >${{ formatPrice(priceRange.max) }}</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Estado de carga -->
+    <div v-if="loading" class="flex justify-center items-center py-12">
+      <div
+        class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"
+      ></div>
+    </div>
+
+    <!-- Resultados: Lista de productos -->
+    <div
+      v-else-if="filteredProducts.length > 0"
+      class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
+    >
+      <div
+        v-for="product in filteredProducts"
+        :key="product.id"
+        class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+      >
+        <NuxtLink :to="`/productos/${product.id}`" class="block">
+          <div class="relative">
+            <!-- Etiqueta de descuento -->
+            <div
+              v-if="product.discountPercentage"
+              class="absolute top-2 right-2 bg-red-500 text-white font-bold px-2 py-1 rounded-md text-sm"
+            >
+              -{{ product.discountPercentage }}%
+            </div>
+
+            <!-- Etiqueta de vencimiento próximo -->
+            <div
+              v-if="product.daysUntilExpiry && product.daysUntilExpiry <= 30"
+              class="absolute top-2 left-2 bg-amber-500 text-white font-bold px-2 py-1 rounded-md text-sm"
+            >
+              {{ product.daysUntilExpiry }} días
+            </div>
+
+            <!-- Imagen del producto -->
+            <div class="h-48 w-full bg-gray-200">
+              <img
+                v-if="product.imageUrl"
+                :src="product.imageUrl"
+                :alt="product.name"
+                class="w-full h-full object-contain"
+                @error="handleImageError"
+              />
+              <div
+                v-else
+                class="w-full h-full flex items-center justify-center bg-gray-100"
+              >
+                <span class="text-gray-400 text-4xl">📦</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4">
+            <!-- Información del producto -->
+            <div class="mb-2">
+              <p class="text-xs text-gray-500">{{ product.brand }}</p>
+              <h3 class="font-medium text-gray-800 mb-1 line-clamp-2">
+                {{ product.name }}
+              </h3>
+              <p class="text-xs text-gray-500 mb-2">
+                {{ product.pharmacyName }}
+              </p>
+            </div>
+
+            <!-- Precios -->
+            <div class="flex items-baseline gap-2">
+              <span class="text-lg font-bold text-green-600"
+                >${{ formatPrice(getDiscountedPrice(product)) }}</span
+              >
+              <span class="text-sm text-gray-500 line-through"
+                >${{ formatPrice(product.regularPrice) }}</span
+              >
+            </div>
+
+            <!-- Fecha de vencimiento -->
+            <p class="text-xs text-gray-500 mt-2">
+              Vence: {{ formatExpiryDate(product.expiryDate) }}
+            </p>
+          </div>
+        </NuxtLink>
+      </div>
+    </div>
+
+    <!-- Sin resultados -->
+    <div v-else-if="!loading" class="bg-gray-100 rounded-lg p-8 text-center">
+      <p class="text-gray-600 text-lg mb-4">
+        No se encontraron productos con los filtros seleccionados.
+      </p>
+      <button
+        @click="resetFilters"
+        class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+      >
+        Mostrar todos los productos
+      </button>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from "vue";
+
+// Estados
+const loading = ref(true);
+const searchQuery = ref("");
+const selectedCategory = ref("");
+const sortBy = ref("discount");
+const filters = ref({
+  highDiscount: false,
+  freeDelivery: false,
+  nearExpiry: false,
+});
+const products = ref([]);
+const maxPrice = ref(50000);
+const priceRange = ref({
+  min: 0,
+  max: 50000,
+});
+
+// Categorías disponibles (se extraerán de los productos)
+const categories = computed(() => {
+  const uniqueCategories = [
+    ...new Set(products.value.map((product) => product.category)),
+  ];
+  return uniqueCategories.sort();
+});
+
+// Datos de muestra para pruebas (reemplazar con llamada a API)
+const mockProducts = [
+  {
+    id: "101",
+    name: "Ibuprofeno 400mg 30 comprimidos",
+    brand: "Laboratorio Chile",
+    category: "Analgésicos",
+    regularPrice: 5990,
+    discountPercentage: 40,
+    imageUrl: "",
+    pharmacyName: "Farmacia Central",
+    pharmacyId: "201",
+    expiryDate: "2023-12-15",
+    daysUntilExpiry: 25,
+    freeDelivery: true,
+  },
+  {
+    id: "102",
+    name: "Vitamina C 1000mg 30 comprimidos efervescentes",
+    brand: "GNC",
+    category: "Vitaminas y Suplementos",
+    regularPrice: 8990,
+    discountPercentage: 35,
+    imageUrl: "",
+    pharmacyName: "Farmacia del Barrio",
+    pharmacyId: "202",
+    expiryDate: "2024-01-20",
+    daysUntilExpiry: 60,
+    freeDelivery: false,
+  },
+  {
+    id: "103",
+    name: "Losartán 50mg 30 comprimidos",
+    brand: "Recalcine",
+    category: "Presión Arterial",
+    regularPrice: 12990,
+    discountPercentage: 55,
+    imageUrl: "",
+    pharmacyName: "Farmacia Bienestar",
+    pharmacyId: "203",
+    expiryDate: "2023-11-30",
+    daysUntilExpiry: 10,
+    freeDelivery: true,
+  },
+  {
+    id: "104",
+    name: "Crema Hidratante Facial 50ml",
+    brand: "Eucerin",
+    category: "Cuidado de la Piel",
+    regularPrice: 15990,
+    discountPercentage: 30,
+    imageUrl: "",
+    pharmacyName: "Farmacia Vida Sana",
+    pharmacyId: "204",
+    expiryDate: "2024-03-15",
+    daysUntilExpiry: 115,
+    freeDelivery: false,
+  },
+  {
+    id: "105",
+    name: "Paracetamol 500mg 20 comprimidos",
+    brand: "Laboratorio Chile",
+    category: "Analgésicos",
+    regularPrice: 3990,
+    discountPercentage: 25,
+    imageUrl: "",
+    pharmacyName: "Farmacia Económica",
+    pharmacyId: "205",
+    expiryDate: "2024-02-10",
+    daysUntilExpiry: 85,
+    freeDelivery: true,
+  },
+  {
+    id: "106",
+    name: "Suplemento Proteína Whey 1kg",
+    brand: "Protein Labs",
+    category: "Vitaminas y Suplementos",
+    regularPrice: 29990,
+    discountPercentage: 45,
+    imageUrl: "",
+    pharmacyName: "Farmacia Central",
+    pharmacyId: "201",
+    expiryDate: "2023-12-05",
+    daysUntilExpiry: 15,
+    freeDelivery: false,
+  },
+  {
+    id: "107",
+    name: "Jarabe para la Tos 120ml",
+    brand: "MK",
+    category: "Respiratorio",
+    regularPrice: 6990,
+    discountPercentage: 50,
+    imageUrl: "",
+    pharmacyName: "Farmacia del Barrio",
+    pharmacyId: "202",
+    expiryDate: "2024-01-30",
+    daysUntilExpiry: 70,
+    freeDelivery: true,
+  },
+  {
+    id: "108",
+    name: "Shampoo Anticaspa 375ml",
+    brand: "Head & Shoulders",
+    category: "Cuidado Personal",
+    regularPrice: 4990,
+    discountPercentage: 20,
+    imageUrl: "",
+    pharmacyName: "Farmacia Bienestar",
+    pharmacyId: "203",
+    expiryDate: "2024-04-20",
+    daysUntilExpiry: 150,
+    freeDelivery: false,
+  },
+];
+
+// Propiedades computadas
+const filteredProducts = computed(() => {
+  let result = [...products.value];
+
+  // Filtrar por término de búsqueda
+  if (searchQuery.value) {
+    const query = searchQuery.value.toLowerCase();
+    result = result.filter(
+      (product) =>
+        product.name.toLowerCase().includes(query) ||
+        product.brand.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query)
+    );
+  }
+
+  // Filtrar por categoría
+  if (selectedCategory.value) {
+    result = result.filter(
+      (product) => product.category === selectedCategory.value
+    );
+  }
+
+  // Filtrar por rango de precio (precio con descuento)
+  result = result.filter((product) => {
+    const discountedPrice = getDiscountedPrice(product);
+    return (
+      discountedPrice >= priceRange.value.min &&
+      discountedPrice <= priceRange.value.max
+    );
+  });
+
+  // Aplicar filtros adicionales
+  if (filters.value.highDiscount) {
+    result = result.filter((product) => product.discountPercentage >= 50);
+  }
+
+  if (filters.value.freeDelivery) {
+    result = result.filter((product) => product.freeDelivery);
+  }
+
+  if (filters.value.nearExpiry) {
+    result = result.filter((product) => product.daysUntilExpiry <= 30);
+  }
+
+  // Aplicar ordenamiento
+  switch (sortBy.value) {
+    case "discount":
+      result.sort((a, b) => b.discountPercentage - a.discountPercentage);
+      break;
+    case "expiry":
+      result.sort((a, b) => a.daysUntilExpiry - b.daysUntilExpiry);
+      break;
+    case "priceAsc":
+      result.sort((a, b) => getDiscountedPrice(a) - getDiscountedPrice(b));
+      break;
+    case "priceDesc":
+      result.sort((a, b) => getDiscountedPrice(b) - getDiscountedPrice(a));
+      break;
+  }
+
+  return result;
+});
+
+// Métodos
+const fetchProducts = async () => {
+  try {
+    loading.value = true;
+
+    // Simular llamada a API con retraso
+    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    // Asignar datos de muestra
+    products.value = mockProducts;
+
+    // Establecer precio máximo basado en los productos
+    const highestPrice = Math.max(...products.value.map((p) => p.regularPrice));
+    maxPrice.value = Math.ceil(highestPrice / 1000) * 1000; // Redondear al alza a miles
+    priceRange.value.max = maxPrice.value;
+  } catch (err) {
+    console.error("Error al cargar productos:", err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const toggleFilter = (filter) => {
+  filters.value[filter] = !filters.value[filter];
+};
+
+const resetFilters = () => {
+  searchQuery.value = "";
+  selectedCategory.value = "";
+  sortBy.value = "discount";
+  filters.value = {
+    highDiscount: false,
+    freeDelivery: false,
+    nearExpiry: false,
+  };
+  priceRange.value = {
+    min: 0,
+    max: maxPrice.value,
+  };
+};
+
+const getDiscountedPrice = (product) => {
+  return Math.round(
+    product.regularPrice * (1 - product.discountPercentage / 100)
+  );
+};
+
+const formatPrice = (price) => {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
+const formatExpiryDate = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("es-CL", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
+
+const handleImageError = (event) => {
+  event.target.src = "/images/product-placeholder.jpg";
+};
+
+// Cargar datos al montar el componente
+onMounted(() => {
+  fetchProducts();
+});
+
+// Configuración de metadatos de la página
+definePageMeta({
+  layout: "default",
+});
+</script>

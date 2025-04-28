@@ -1,0 +1,476 @@
+<template>
+  <div class="container mx-auto px-4 py-8">
+    <!-- Estado de carga -->
+    <div v-if="loading" class="flex justify-center items-center py-24">
+      <div
+        class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-green-500"
+      ></div>
+    </div>
+
+    <!-- Error al cargar el producto -->
+    <div v-else-if="error" class="bg-red-50 p-6 rounded-lg text-center">
+      <h2 class="text-2xl font-bold text-red-700 mb-4">
+        Error al cargar el producto
+      </h2>
+      <p class="text-red-600 mb-6">{{ error }}</p>
+      <NuxtLink
+        to="/productos"
+        class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors"
+      >
+        Volver a productos
+      </NuxtLink>
+    </div>
+
+    <!-- Detalle del producto -->
+    <div
+      v-else-if="product"
+      class="bg-white rounded-lg shadow-lg overflow-hidden"
+    >
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Columna de imágenes -->
+        <div class="p-6">
+          <!-- Imagen principal -->
+          <div
+            class="bg-white border rounded-lg mb-4 h-80 flex items-center justify-center"
+          >
+            <img
+              v-if="product.imageUrl"
+              :src="product.imageUrl"
+              :alt="product.name"
+              class="max-h-full max-w-full object-contain"
+              @error="handleImageError"
+            />
+            <div
+              v-else
+              class="w-full h-full flex items-center justify-center bg-gray-100"
+            >
+              <span class="text-gray-400 text-6xl">📦</span>
+            </div>
+          </div>
+
+          <!-- Etiquetas -->
+          <div class="flex flex-wrap gap-2 mt-4">
+            <span
+              v-if="product.discountPercentage"
+              class="bg-red-500 text-white font-bold px-3 py-1 rounded-full text-sm"
+            >
+              {{ product.discountPercentage }}% de descuento
+            </span>
+            <span
+              v-if="product.daysUntilExpiry && product.daysUntilExpiry <= 30"
+              class="bg-amber-500 text-white font-bold px-3 py-1 rounded-full text-sm"
+            >
+              Vence en {{ product.daysUntilExpiry }} días
+            </span>
+            <span
+              v-if="product.freeDelivery"
+              class="bg-blue-500 text-white font-bold px-3 py-1 rounded-full text-sm"
+            >
+              Envío gratis
+            </span>
+          </div>
+        </div>
+
+        <!-- Columna de información -->
+        <div class="p-6 md:p-8">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+                {{ product.name }}
+              </h1>
+              <p class="text-gray-600 text-lg mb-4">{{ product.brand }}</p>
+            </div>
+            <button
+              @click="toggleFavorite"
+              class="text-2xl focus:outline-none"
+              :class="isFavorite ? 'text-red-500' : 'text-gray-300'"
+            >
+              ♥
+            </button>
+          </div>
+
+          <!-- Farmacia -->
+          <div class="flex items-center mb-6">
+            <div
+              class="w-10 h-10 bg-gray-200 rounded-full overflow-hidden mr-3"
+            >
+              <img
+                v-if="product.pharmacyLogoUrl"
+                :src="product.pharmacyLogoUrl"
+                alt="Logo farmacia"
+                class="w-full h-full object-cover"
+                @error="handlePharmacyLogoError"
+              />
+              <div
+                v-else
+                class="w-full h-full flex items-center justify-center bg-gray-100"
+              >
+                <span class="text-gray-400 text-sm">🏥</span>
+              </div>
+            </div>
+            <div>
+              <p class="font-medium">{{ product.pharmacyName }}</p>
+              <NuxtLink
+                :to="`/farmacias/${product.pharmacyId}`"
+                class="text-green-600 text-sm hover:underline"
+              >
+                Ver farmacia
+              </NuxtLink>
+            </div>
+          </div>
+
+          <!-- Precios -->
+          <div class="mb-6">
+            <div class="flex items-baseline gap-3 mb-2">
+              <span class="text-3xl font-bold text-green-600"
+                >${{ formatPrice(getDiscountedPrice(product)) }}</span
+              >
+              <span class="text-xl text-gray-500 line-through"
+                >${{ formatPrice(product.regularPrice) }}</span
+              >
+            </div>
+            <p class="text-red-600 font-medium">
+              Ahorras ${{
+                formatPrice(product.regularPrice - getDiscountedPrice(product))
+              }}
+              ({{ product.discountPercentage }}%)
+            </p>
+          </div>
+
+          <!-- Información vencimiento -->
+          <div class="bg-amber-50 rounded-lg p-4 mb-6">
+            <h3 class="font-medium text-amber-800 mb-2">
+              Información de vencimiento
+            </h3>
+            <p class="text-amber-700 mb-1">
+              <span class="font-medium">Fecha de vencimiento:</span>
+              {{ formatExpiryDate(product.expiryDate) }}
+            </p>
+            <p class="text-amber-700 mb-1">
+              <span class="font-medium">Días restantes:</span>
+              {{ product.daysUntilExpiry }} días
+            </p>
+            <p class="text-xs text-amber-600 mt-2">
+              Este producto está próximo a vencer, pero mantiene todas sus
+              propiedades hasta la fecha de vencimiento indicada.
+            </p>
+          </div>
+
+          <!-- Stock y cantidad -->
+          <div class="mb-6">
+            <div class="flex items-center mb-4">
+              <span
+                :class="[
+                  'inline-block w-3 h-3 rounded-full mr-2',
+                  product.stock > 10
+                    ? 'bg-green-500'
+                    : product.stock > 0
+                      ? 'bg-yellow-500'
+                      : 'bg-red-500',
+                ]"
+              ></span>
+              <span class="text-gray-700">
+                {{
+                  product.stock > 10
+                    ? "En stock"
+                    : product.stock > 0
+                      ? `¡Solo quedan ${product.stock} unidades!`
+                      : "Agotado"
+                }}
+              </span>
+            </div>
+
+            <div class="flex items-center">
+              <button
+                @click="decrementQuantity"
+                class="bg-gray-200 text-gray-700 w-10 h-10 rounded-l-md flex items-center justify-center"
+                :disabled="quantity <= 1 || product.stock === 0"
+                :class="{
+                  'opacity-50 cursor-not-allowed':
+                    quantity <= 1 || product.stock === 0,
+                }"
+              >
+                -
+              </button>
+              <input
+                v-model="quantity"
+                type="number"
+                min="1"
+                :max="product.stock"
+                class="w-16 h-10 border-y border-gray-300 text-center"
+                :disabled="product.stock === 0"
+              />
+              <button
+                @click="incrementQuantity"
+                class="bg-gray-200 text-gray-700 w-10 h-10 rounded-r-md flex items-center justify-center"
+                :disabled="quantity >= product.stock || product.stock === 0"
+                :class="{
+                  'opacity-50 cursor-not-allowed':
+                    quantity >= product.stock || product.stock === 0,
+                }"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="flex flex-col sm:flex-row gap-3">
+            <button
+              @click="addToCart"
+              class="flex-1 bg-green-600 text-white py-3 px-6 rounded-md hover:bg-green-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              :disabled="product.stock === 0"
+            >
+              <span v-if="product.stock === 0">Agotado</span>
+              <span v-else>Agregar al carrito</span>
+            </button>
+            <button
+              @click="buyNow"
+              class="flex-1 border border-green-600 text-green-600 py-3 px-6 rounded-md hover:bg-green-50 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              :disabled="product.stock === 0"
+            >
+              Comprar ahora
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detalles técnicos y descripción -->
+      <div class="border-t border-gray-200 p-6 md:p-8">
+        <div class="max-w-3xl mx-auto">
+          <h2 class="text-xl font-bold text-gray-800 mb-4">
+            Descripción y detalles
+          </h2>
+
+          <!-- Descripción -->
+          <div class="mb-8">
+            <p class="text-gray-700 mb-4">{{ product.description }}</p>
+
+            <!-- Lista de beneficios o características -->
+            <ul class="list-disc pl-5 text-gray-700 space-y-2">
+              <li v-for="(feature, index) in product.features" :key="index">
+                {{ feature }}
+              </li>
+            </ul>
+          </div>
+
+          <!-- Tabla de información técnica -->
+          <div class="mb-8">
+            <h3 class="text-lg font-medium text-gray-800 mb-3">
+              Información técnica
+            </h3>
+            <div class="bg-gray-50 rounded-lg overflow-hidden">
+              <table class="w-full border-collapse">
+                <tbody>
+                  <tr class="border-b border-gray-200">
+                    <td class="py-3 px-4 text-gray-600 font-medium">
+                      Categoría
+                    </td>
+                    <td class="py-3 px-4 text-gray-800">
+                      {{ product.category }}
+                    </td>
+                  </tr>
+                  <tr class="border-b border-gray-200">
+                    <td class="py-3 px-4 text-gray-600 font-medium">Marca</td>
+                    <td class="py-3 px-4 text-gray-800">{{ product.brand }}</td>
+                  </tr>
+                  <tr class="border-b border-gray-200">
+                    <td class="py-3 px-4 text-gray-600 font-medium">
+                      Presentación
+                    </td>
+                    <td class="py-3 px-4 text-gray-800">
+                      {{ product.presentation }}
+                    </td>
+                  </tr>
+                  <tr class="border-b border-gray-200">
+                    <td class="py-3 px-4 text-gray-600 font-medium">
+                      Requiere receta
+                    </td>
+                    <td class="py-3 px-4 text-gray-800">
+                      {{ product.requiresPrescription ? "Sí" : "No" }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="py-3 px-4 text-gray-600 font-medium">
+                      Fabricante
+                    </td>
+                    <td class="py-3 px-4 text-gray-800">
+                      {{ product.manufacturer }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useCartStore } from "~/stores/cart";
+
+// Acceso a ruta y router
+const route = useRoute();
+const router = useRouter();
+const cartStore = useCartStore();
+
+// Estados
+const product = ref(null);
+const loading = ref(true);
+const error = ref(null);
+const quantity = ref(1);
+const isFavorite = ref(false);
+
+// Producto de muestra (reemplazar con llamada a API)
+const mockProduct = {
+  id: "103",
+  name: "Losartán 50mg 30 comprimidos",
+  brand: "Recalcine",
+  category: "Presión Arterial",
+  regularPrice: 12990,
+  discountPercentage: 55,
+  imageUrl: "",
+  description:
+    "Medicamento antihipertensivo que actúa como antagonista de los receptores de angiotensina II. Está indicado para el tratamiento de la hipertensión arterial, para reducir la presión arterial en pacientes con hipertensión.",
+  features: [
+    "Disminuye la presión arterial",
+    "Protege los riñones en pacientes con diabetes tipo 2",
+    "Reduce el riesgo de accidente cerebrovascular en pacientes con hipertensión",
+    "Previene la insuficiencia cardíaca en ciertos pacientes",
+  ],
+  presentation: "Caja con 30 comprimidos recubiertos de 50mg",
+  manufacturer: "Laboratorio Recalcine",
+  requiresPrescription: true,
+  pharmacyName: "Farmacia Bienestar",
+  pharmacyId: "203",
+  pharmacyLogoUrl: "",
+  expiryDate: "2023-11-30",
+  daysUntilExpiry: 10,
+  freeDelivery: true,
+  stock: 15,
+};
+
+// Métodos
+const fetchProduct = async () => {
+  try {
+    loading.value = true;
+    error.value = null;
+
+    // Obtener ID del producto de la ruta
+    const productId = route.params.id;
+
+    // Simular llamada a API con retraso
+    await new Promise((resolve) => setTimeout(resolve, 800));
+
+    // Verificar ID (en producción sería una validación más robusta)
+    if (productId !== mockProduct.id) {
+      error.value = "Producto no encontrado";
+      product.value = null;
+      return;
+    }
+
+    // Asignar datos de muestra
+    product.value = mockProduct;
+  } catch (err) {
+    console.error("Error al cargar el producto:", err);
+    error.value =
+      "Ocurrió un error al cargar el producto. Por favor, intenta nuevamente.";
+  } finally {
+    loading.value = false;
+  }
+};
+
+const getDiscountedPrice = (product) => {
+  return Math.round(
+    product.regularPrice * (1 - product.discountPercentage / 100)
+  );
+};
+
+const formatPrice = (price) => {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+};
+
+const formatExpiryDate = (dateString) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("es-CL", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
+const handleImageError = (event) => {
+  event.target.src = "/images/product-placeholder.jpg";
+};
+
+const handlePharmacyLogoError = (event) => {
+  event.target.src = "/images/pharmacy-placeholder.jpg";
+};
+
+const incrementQuantity = () => {
+  if (product.value && quantity.value < product.value.stock) {
+    quantity.value++;
+  }
+};
+
+const decrementQuantity = () => {
+  if (quantity.value > 1) {
+    quantity.value--;
+  }
+};
+
+const toggleFavorite = () => {
+  isFavorite.value = !isFavorite.value;
+
+  // Aquí se implementaría la lógica para guardar el favorito
+  if (isFavorite.value) {
+    // Agregar a favoritos (simulado)
+    console.log("Producto agregado a favoritos:", product.value.id);
+  } else {
+    // Quitar de favoritos (simulado)
+    console.log("Producto eliminado de favoritos:", product.value.id);
+  }
+};
+
+const addToCart = () => {
+  if (product.value && product.value.stock > 0 && quantity.value > 0) {
+    cartStore.addToCart({
+      id: product.value.id,
+      name: product.value.name,
+      price: getDiscountedPrice(product.value),
+      regularPrice: product.value.regularPrice,
+      imageUrl: product.value.imageUrl,
+      quantity: quantity.value,
+      pharmacyId: product.value.pharmacyId,
+      pharmacyName: product.value.pharmacyName,
+    });
+
+    // Mostrar notificación de éxito
+    alert(
+      `Se agregaron ${quantity.value} unidades de ${product.value.name} al carrito`
+    );
+  }
+};
+
+const buyNow = () => {
+  // Primero agregar al carrito
+  addToCart();
+
+  // Luego redirigir al carrito
+  router.push("/carrito");
+};
+
+// Cargar datos al montar el componente
+onMounted(() => {
+  fetchProduct();
+});
+
+// Configuración de metadatos de la página
+definePageMeta({
+  layout: "default",
+});
+</script>

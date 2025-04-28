@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "descuentofarmacia",
+  "private_key_id": "02980eebcf39fa7f41c240153343e0d4874e6362",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDJ8pDdq4PNf+Z3\nfi0NHky5mHznxb0HVNmQys0q05aVAzWL1nClcEdTiYEAbCaGA9zRXl5fpanBnQth\nGtENHkykwPFfTyhI+64cBnO1DmYgATk+0wLe5nqKspevi7HMhVGZwynG5s2e/fQn\nsDuiQI3ljG8/vKNx/b7prNGoDi1M3ffBkCp8dB1igBFytD44zUUbLAhCPAE2qrt5\nFunzojcrwCXDMuvQE6PjgIs7Xr3WO4Gb/NnxS+tdKjSjlChndF+SVG6m7OtzbdPX\naLpMwacfx1PrIz5KyJmLzG2XOlbulsfookldJGMZEcBJZys+Rbdyivb/WM1p/edL\nSNHJCfBDAgMBAAECggEAU59LSFcIvVPsWWeYfRmiWKnhctHJG9uROakYetbhwDNz\nfUOfIopTJq7GCag+7Xh0/AdRGdcN65u9hgimLwHwZ7pzWG19N3dsGbO8PulG9ZK8\nIx0aT7VtYbhhIjI8vf0olHyhdHjHBUKQUszhbKbBex+DQ4e3wHB7mORUbnvsWyrD\nz/cpDVLrR5ngslgQ6vLBMbn0PO9W4gg9EW42s6N5W4YOalsrTdfX/c/84JxE42wp\nxBjWTOM3mEAJI1z/ofrkLO+gbLuNVVzUm+zixZvUKulJ33vbhu7zSxfa8YD+Uuzt\nsSVBKgzxxGj4Rp1b2qXooWE4A8bM/ofiux/+ytHf9QKBgQD2U4QFZLBsPBOqWTKH\nJN0O0nsBycCJCGhWXz+EWnxQ3644etB8d85zAGq0yz4m2hfPn9Ds13Gw35oyhzve\n9Rj4W0wHI5MPt6VFMettVePo4e/leN5Wmf4yhFZ1w6BgmT1kJ9aOQ/0MIqZCtN+o\n/8VYn9SF/xaJZ5Qvhc+ke4Y+VwKBgQDR4OGHdwOfFu6oKPTJWHmxlEaKeoFKpsLP\nuIcwEwRatLFCHlbAB2aVClj0bQz1dE1XlPk2hPM8mC2BW/7ns8q4lbHOgju9z7vN\nsA4Rr0Pyd7FI3Z1lNFmAOuxtm+9uS2T/FCepWeAfp9sfxyl8Z5/B7s1Z/PkY60dQ\n/AjDnyeR9QKBgA12lxqsXDAuQGzpHyffze1Hd82rN0jGGt3Nqu0S/QR2lVEk9Uw4\nSCJk/XAQQ79f4DlK5OJtDBu8vPLSDWWsQ8cfRlKFkT4krXXQuqtpLGHIJ5KFPrHB\nDPG55ffdz2A4P/C/dKyl7qjBJBE1TZwxDpo/ciA4xwSPkrveNnEpBzdVAoGACmA7\nxh60JyFTGy0rLOka2xShiCcWTUKBTxOoW1AVXwaf3MzzLPswrx2b2Dmr8laVnEbZ\nK0DXZZ+AYGzT5VCWLRn5eGQn3/JtLnYNvAIWMd6I/Tk3ltFHu3cuSRz0cVd43sN4\nUn8G/Ymm46NNAcF9vHC55kEDb5/yHqbXKBSuOCECgYAL/VyO42ALiaNeVbHEEKxn\npYySTtCzeb0NmPZ3ZpRvZXzjvCr3WLbDG8qgwasTGWpFTi2DWpa2g42RRo2QhWeY\nEPpgUsriJLpdCl6cvb3B4AkDhjc2KwwcR1rU0NgWUTkv/nikvbBqFs/IYxWzAEGB\n5+LjsXrsROWGYE1HOdFapw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@descuentofarmacia.iam.gserviceaccount.com",
+  "client_id": "116280481907513309224",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40descuentofarmacia.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "user_001",
+  "nombre": "María Pérez",
+  "email": "maria.perez@email.com",
+  "roles": ["cliente"],
+  "direcciones": [
+    {
+      "direccion": "Av. Apoquindo 1234, Las Condes, Santiago",
+      "lat": -33.417,
+      "lng": -70.606
+    }
+  ],
+  "favoritos": ["prod_12345"]
+}

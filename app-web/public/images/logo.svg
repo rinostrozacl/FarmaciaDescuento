@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" width="200" height="50">
+  <!-- Fondo verde redondeado -->
+  <rect x="0" y="5" width="50" height="40" rx="5" fill="#10B981" />
+  
+  <!-- Símbolo de farmacia (cruz) -->
+  <path d="M23 15v20M13 25h20" stroke="white" stroke-width="4" stroke-linecap="round" />
+  
+  <!-- Icono de pastilla -->
+  <rect x="35" y="15" width="10" height="20" rx="5" fill="white" />
+  
+  <!-- Texto "FarmaciaDescuento" -->
+  <text x="60" y="30" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#10B981">
+    FarmaciaDescuento
+  </text>
+</svg> 

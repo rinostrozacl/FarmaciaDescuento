@@ -1,7 +1,18 @@
 # Requerimientos del Sistema FarmaciaDescuento
 
+## Índice
+
+1. [Descripción General](#descripción-general)
+2. [Requerimientos Funcionales](#requerimientos-funcionales)
+3. [Requerimientos No Funcionales](#requerimientos-no-funcionales)
+4. [Usabilidad y Accesibilidad](#usabilidad-y-accesibilidad)
+
+---
+
 ## Descripción General
 FarmaciaDescuento es una plataforma que conecta a farmacias con clientes interesados en adquirir productos con descuento, principalmente aquellos próximos a vencer. Este sistema busca beneficiar a ambas partes: los clientes obtienen medicamentos a precios reducidos y las farmacias disminuyen sus pérdidas por vencimiento de productos.
+
+---
 
 ## Requerimientos Funcionales
 
@@ -77,6 +88,22 @@ FarmaciaDescuento es una plataforma que conecta a farmacias con clientes interes
    - Reportes de ventas y comisiones
    - Análisis de tendencias y comportamiento de usuarios
 
+### Requerimientos de Seguridad
+
+1. **Autenticación y Autorización**:
+   - Sistema de registro e inicio de sesión seguro
+   - Roles y permisos diferenciados para clientes, farmacias y administradores
+   - Protección contra ataques de fuerza bruta
+   - Recuperación de contraseñas segura
+
+2. **Protección de Datos**:
+   - Cifrado de datos sensibles
+   - Cumplimiento con regulaciones de protección de datos (GDPR, etc.)
+   - Políticas de privacidad claras
+   - Auditoría de accesos y cambios en datos sensibles
+   - Uso de archivos de entorno (.env) para almacenar claves API y credenciales
+   - Separación de configuraciones por entorno (desarrollo, producción)
+
 ## Requerimientos No Funcionales
 
 1. **Seguridad**
@@ -104,8 +131,16 @@ FarmaciaDescuento es una plataforma que conecta a farmacias con clientes interes
    - Plan de respaldo y recuperación ante fallos
 
 5. **Compatibilidad**
-   - Aplicación web compatible con navegadores modernos
-   - Aplicación móvil compatible con iOS y Android
+   - Compatibilidad con navegadores modernos (Chrome, Firefox, Safari, Edge)
+   - Optimización para dispositivos móviles y tablets
+   - Soporte para diferentes resoluciones de pantalla
+
+6. **Infraestructura**
+   - Alojamiento en servidores cloud (Firebase Hosting/Google Cloud Platform)
+   - Base de datos NoSQL escalable (Firestore)
+   - Almacenamiento de archivos en la nube (Firebase Storage)
+   - Gestión de configuración mediante variables de entorno (.env)
+   - Separación de configuraciones por ambiente (desarrollo, staging, producción)
 
 ## Restricciones y Consideraciones Legales
 

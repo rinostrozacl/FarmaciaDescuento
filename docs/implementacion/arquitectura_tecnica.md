@@ -1,32 +1,51 @@
 # Arquitectura Técnica - FarmaciaDescuento
 
+## Índice
+
+1. [Visión General](#visión-general)
+2. [Stack Tecnológico Principal](#stack-tecnológico-principal)
+3. [Diagrama de Arquitectura](#diagrama-de-arquitectura)
+4. [Descripción de Servicios y Componentes](#descripción-de-servicios-y-componentes)
+5. [Flujos Clave del Sistema](#flujos-clave-del-sistema)
+
+---
+
 ## Visión General
 
-La arquitectura del sistema FarmaciaDescuento se basa en un enfoque moderno utilizando Nuxt.js para el frontend y Hasura como capa de GraphQL API y gestión de datos. Esta arquitectura permite un desarrollo rápido, escalable y mantenible que satisface los requerimientos funcionales y no funcionales del sistema.
+La arquitectura del sistema FarmaciaDescuento se basa en un enfoque moderno utilizando Nuxt.js para el frontend y Firebase como plataforma de backend. Esta arquitectura permite un desarrollo rápido, escalable y mantenible que satisface los requerimientos funcionales y no funcionales del sistema, aprovechando los servicios cloud de Google Cloud Platform (GCP).
+
+---
 
 ## Stack Tecnológico Principal
 
 ### Frontend
-- **Nuxt.js**: Framework basado en Vue.js para desarrollo de aplicaciones web
-- **Vue.js**: Biblioteca JavaScript para construir interfaces de usuario
+- **Nuxt 3**: Framework basado en Vue 3 para desarrollo de aplicaciones web
+- **Vue 3**: Biblioteca JavaScript para construir interfaces de usuario con Composition API
 - **Tailwind CSS**: Framework CSS para diseño responsivo y personalizable
-- **Apollo Client**: Cliente GraphQL para comunicación con el backend
+- **Firebase SDK**: Para comunicación con los servicios de Firebase
 
 ### Backend
-- **Hasura**: Motor GraphQL que proporciona API instantáneas sobre PostgreSQL
-- **PostgreSQL**: Sistema de gestión de base de datos relacional
-- **Node.js**: Para servicios personalizados y lógica de negocio específica
-- **Express.js**: Framework web para Node.js (acciones personalizadas)
+- **Firebase**: Plataforma de desarrollo de aplicaciones
+  - **Firestore**: Base de datos NoSQL en tiempo real
+  - **Firebase Authentication**: Sistema de autenticación
+  - **Firebase Storage**: Almacenamiento de archivos
+  - **Firebase Functions**: Funciones serverless para lógica de negocio
+  - **Firebase Hosting**: Alojamiento de aplicaciones web
+  - **Firebase Cloud Messaging**: Notificaciones push
+  - **Dataconnect**: Servicio para conexión de datos
+- **Resend**: Servicio de envío de correos electrónicos transaccionales
+- **Google Cloud Platform**: Infraestructura cloud para servicios adicionales
 
 ### Aplicación Móvil
 - **Flutter**: Framework para desarrollo de aplicaciones móviles multiplataforma
-- **GraphQL**: Para comunicación con el backend (Hasura)
+- **Firebase SDK para Flutter**: Para comunicación con los servicios de Firebase
 
 ### Infraestructura y DevOps
-- **Docker**: Contenedores para desarrollo y despliegue
-- **Kubernetes**: Orquestación de contenedores (opcional para producción)
-- **CI/CD**: Integración y despliegue continuo
-- **Monitoreo**: Herramientas para seguimiento de rendimiento y errores
+- **Google Cloud Build**: Integración y despliegue continuo
+- **Firebase Hosting**: Despliegue de aplicaciones web
+- **Google Cloud Run**: Para servicios adicionales
+- **Firebase Performance Monitoring**: Monitoreo de rendimiento
+- **Firebase Crashlytics**: Seguimiento de errores en aplicaciones móviles
 
 ## Diagrama de Arquitectura
 
@@ -34,134 +53,155 @@ La arquitectura del sistema FarmaciaDescuento se basa en un enfoque moderno util
 flowchart TD
     %% Definición de estilos
     classDef clientLayer fill:#f9d6d2,stroke:#d86e6a,stroke-width:2px
-    classDef apiLayer fill:#d2e5f9,stroke:#6a96d8,stroke-width:2px
-    classDef dataLayer fill:#d2f9d6,stroke:#6ad86e,stroke-width:2px
+    classDef firebaseLayer fill:#d2e5f9,stroke:#6a96d8,stroke-width:2px
+    classDef gcpLayer fill:#d2f9d6,stroke:#6ad86e,stroke-width:2px
     classDef serviceLayer fill:#f9f9d2,stroke:#d8d86a,stroke-width:2px
     
     %% Capa de Clientes
     subgraph ClientLayer["CAPA DE CLIENTES"]
-        WebApp["Aplicación Web<br>(Nuxt.js)"]
+        WebApp["Aplicación Web<br>(Nuxt 3)"]
         MobileApp["Aplicación Móvil<br>(Flutter)"]
-        AdminPanel["Panel de<br>Administración<br>(Nuxt.js)"]
+        AdminPanel["Panel de<br>Administración<br>(Nuxt 3)"]
     end
     
-    %% Capa de API
-    subgraph APILayer["CAPA DE API"]
-        HasuraEngine["Hasura GraphQL Engine"]
-        subgraph NodeServices["Servicios Node.js"]
-            TicketService["Servicio de<br>Tickets"]
-            NotificationService["Servicio de<br>Notificaciones"]
-            ReportingService["Servicio de<br>Reportes"]
-            EmailService["Servicio de<br>Email"]
-        end
+    %% Capa de Firebase
+    subgraph FirebaseLayer["CAPA DE FIREBASE"]
+        Auth["Firebase<br>Authentication"]
+        Firestore["Firestore<br>Database"]
+        Storage["Firebase<br>Storage"]
+        Functions["Firebase<br>Functions"]
+        Hosting["Firebase<br>Hosting"]
+        FCM["Firebase Cloud<br>Messaging"]
+        Dataconnect["Firebase<br>Dataconnect"]
     end
     
-    %% Capa de Datos
-    subgraph DataLayer["CAPA DE DATOS"]
-        PostgreSQL["PostgreSQL"]
-        subgraph Storage["Almacenamiento"]
-            S3["Almacenamiento<br>de Archivos<br>(S3/CDN)"]
-            Redis["Caché<br>(Redis)"]
-        end
+    %% Capa de GCP
+    subgraph GCPLayer["CAPA DE GOOGLE CLOUD PLATFORM"]
+        CloudRun["Cloud Run"]
+        CloudFunctions["Cloud Functions"]
+        BigQuery["BigQuery"]
+        CloudStorage["Cloud Storage"]
     end
     
     %% Servicios Externos
     subgraph ExternalServices["SERVICIOS EXTERNOS"]
         EmailProvider["Proveedor de<br>Email"]
-        PushNotifications["Notificaciones<br>Push"]
-        Maps["Servicios de<br>Mapas"]
+        Maps["Google Maps<br>API"]
+        PaymentGateway["Pasarela de<br>Pagos"]
     end
     
     %% Conexiones
-    WebApp <--> HasuraEngine
-    WebApp <--> NodeServices
-    MobileApp <--> HasuraEngine
-    MobileApp <--> NodeServices
-    AdminPanel <--> HasuraEngine
-    AdminPanel <--> NodeServices
+    WebApp <--> Auth
+    WebApp <--> Firestore
+    WebApp <--> Storage
+    WebApp <--> Functions
+    WebApp <--> Hosting
     
-    HasuraEngine <--> PostgreSQL
-    NodeServices <--> PostgreSQL
-    NodeServices <--> Storage
-    HasuraEngine <--> Redis
+    MobileApp <--> Auth
+    MobileApp <--> Firestore
+    MobileApp <--> Storage
+    MobileApp <--> Functions
+    MobileApp <--> FCM
     
-    NotificationService <--> PushNotifications
-    EmailService <--> EmailProvider
-    NodeServices <--> Maps
+    AdminPanel <--> Auth
+    AdminPanel <--> Firestore
+    AdminPanel <--> Storage
+    AdminPanel <--> Functions
+    
+    Firestore <--> Dataconnect
+    Functions <--> CloudFunctions
+    Functions <--> CloudRun
+    Firestore <--> BigQuery
+    Storage <--> CloudStorage
+    
+    Functions <--> EmailProvider
+    Functions <--> Maps
+    Functions <--> PaymentGateway
+    FCM <--> MobileApp
     
     %% Aplicar estilos
     class ClientLayer clientLayer
-    class APILayer apiLayer
-    class DataLayer dataLayer
+    class FirebaseLayer firebaseLayer
+    class GCPLayer gcpLayer
     class ExternalServices serviceLayer
 ```
 
 ### Descripción de Componentes
 
 #### Capa de Clientes
-- **Aplicación Web (Nuxt.js)**: Interfaz principal para usuarios compradores y farmacias
+- **Aplicación Web (Nuxt 3)**: Interfaz principal para usuarios compradores y farmacias
 - **Aplicación Móvil (Flutter)**: Versión móvil para usuarios en dispositivos iOS y Android
-- **Panel de Administración (Nuxt.js)**: Interfaz especializada para administradores de la plataforma
+- **Panel de Administración (Nuxt 3)**: Interfaz especializada para administradores de la plataforma
 
-#### Capa de API
-- **Hasura GraphQL Engine**: Proporciona API GraphQL sobre PostgreSQL, gestiona permisos y suscripciones en tiempo real
-- **Servicios Node.js**:
+#### Capa de Firebase
+- **Firebase Authentication**: Gestión de usuarios, autenticación y autorización
+- **Firestore Database**: Base de datos NoSQL en tiempo real para almacenamiento de datos estructurados
+- **Firebase Storage**: Almacenamiento de archivos (imágenes de productos, documentos)
+- **Firebase Functions**: Funciones serverless para lógica de negocio
   - **Servicio de Tickets**: Genera, valida y gestiona el ciclo de vida de los tickets
   - **Servicio de Notificaciones**: Maneja notificaciones push y en tiempo real
   - **Servicio de Reportes**: Genera informes y análisis
   - **Servicio de Email**: Gestiona el envío de correos electrónicos
+- **Firebase Hosting**: Alojamiento de la aplicación web
+- **Firebase Cloud Messaging**: Para notificaciones push en dispositivos móviles
+- **Firebase Dataconnect**: Servicio para conexión y sincronización de datos
 
-#### Capa de Datos
-- **PostgreSQL**: Base de datos principal del sistema
-- **Almacenamiento**:
-  - **S3/CDN**: Para imágenes de productos y archivos estáticos
-  - **Redis**: Para caché y gestión de sesiones
+#### Capa de Google Cloud Platform
+- **Cloud Run**: Para servicios adicionales que requieran más recursos
+- **Cloud Functions**: Funciones serverless complementarias
+- **BigQuery**: Para análisis de datos y reportes avanzados
+- **Cloud Storage**: Almacenamiento adicional para copias de seguridad y archivos de gran tamaño
 
 #### Servicios Externos
 - **Proveedor de Email**: Servicio para envío masivo de correos
-- **Notificaciones Push**: Para notificaciones en dispositivos móviles
-- **Servicios de Mapas**: Para geolocalización de farmacias
+- **Google Maps API**: Para geolocalización de farmacias
+- **Pasarela de Pagos**: Para procesamiento de pagos en línea
 
 ## Componentes Principales
 
-### 1. Aplicación Web (Nuxt.js)
+### 1. Aplicación Web (Nuxt 3)
 
-La aplicación web será desarrollada utilizando Nuxt.js, un framework basado en Vue.js que proporciona renderizado del lado del servidor (SSR), generación de sitios estáticos y otras características avanzadas.
+La aplicación web será desarrollada utilizando Nuxt 3, la última versión del framework basado en Vue 3 que proporciona renderizado del lado del servidor (SSR), generación de sitios estáticos, renderizado híbrido y otras características avanzadas.
 
 **Características clave:**
 - Renderizado del lado del servidor para mejor SEO y rendimiento
 - Estructura de directorios organizada y convenciones claras
 - Sistema de rutas automático
-- Gestión de estado con Vuex
-- Integración con Apollo Client para comunicación GraphQL
+- Composition API para una mejor organización del código
+- Gestión de estado con Pinia (recomendado para Vue 3)
+- Integración con Firebase SDK para comunicación con el backend
+- Soporte para TypeScript
 
 **Módulos principales:**
-- Autenticación y gestión de usuarios
+- Autenticación y gestión de usuarios (Firebase Authentication)
 - Búsqueda y exploración de productos
 - Gestión de carrito y proceso de compra
 - Panel de administración (para farmacias y administradores)
 - Notificaciones y alertas
 
-### 2. API GraphQL (Hasura)
+### 2. Firebase como Backend
 
-Hasura proporcionará una capa de API GraphQL sobre PostgreSQL, permitiendo un desarrollo rápido y eficiente.
+Firebase proporcionará una plataforma completa para el backend, ofreciendo servicios de base de datos, autenticación, almacenamiento y funciones serverless.
 
 **Características clave:**
-- API GraphQL instantánea sobre la base de datos
-- Sistema de permisos basado en roles
-- Suscripciones en tiempo real
-- Acciones personalizadas para lógica de negocio compleja
-- Eventos para integraciones con servicios externos
+- Firestore: Base de datos NoSQL en tiempo real
+- Firebase Authentication: Sistema de autenticación seguro y flexible
+- Firebase Storage: Almacenamiento de archivos
+- Firebase Functions: Funciones serverless para lógica de negocio
+- Firebase Hosting: Alojamiento de aplicaciones web
+- Firebase Cloud Messaging: Notificaciones push
+- Dataconnect: Servicio para conexión y sincronización de datos
 
 **Funcionalidades principales:**
 - Gestión de datos de usuarios, farmacias y productos
 - Control de acceso basado en roles (RBAC)
 - Validación de datos y restricciones
-- Consultas optimizadas y eficientes
+- Sincronización en tiempo real
+- Escalabilidad automática
 
-### 3. Servicios Node.js
+### 3. Firebase Functions
 
-Para lógica de negocio compleja que no puede ser manejada directamente por Hasura, se implementarán servicios Node.js.
+Para lógica de negocio compleja, se implementarán funciones serverless con Firebase Functions.
 
 **Funcionalidades principales:**
 - Procesamiento de pagos
@@ -169,19 +209,20 @@ Para lógica de negocio compleja que no puede ser manejada directamente por Hasu
 - Integración con servicios externos (mapas, verificación, etc.)
 - Lógica de negocio específica y validaciones complejas
 - Generación de reportes y análisis
+- Triggers automáticos basados en cambios en la base de datos
 
-### 4. Base de Datos PostgreSQL
+### 4. Firestore Database
 
-PostgreSQL servirá como el sistema de gestión de base de datos principal, almacenando todos los datos estructurados del sistema.
+Firestore servirá como el sistema de gestión de base de datos principal, almacenando todos los datos estructurados del sistema.
 
 **Características clave:**
-- Soporte para JSON y JSONB para datos semi-estructurados
-- Funciones y procedimientos almacenados para lógica de base de datos
-- Triggers para mantener la integridad de los datos
-- Índices para consultas eficientes
-- Particionamiento para manejo de grandes volúmenes de datos
+- Base de datos NoSQL orientada a documentos
+- Sincronización en tiempo real
+- Consultas flexibles y eficientes
+- Escalabilidad automática
+- Soporte offline
 
-**Esquema principal:**
+**Colecciones principales:**
 - Usuarios y perfiles
 - Farmacias y sucursales
 - Productos y categorías
@@ -195,10 +236,10 @@ La aplicación móvil será desarrollada utilizando Flutter para proporcionar un
 
 **Características clave:**
 - Interfaz de usuario nativa y fluida
-- Comunicación con el backend mediante GraphQL
-- Almacenamiento local para funcionamiento offline
-- Notificaciones push
-- Geolocalización para farmacias cercanas
+- Integración con Firebase SDK para Flutter
+- Almacenamiento local para funcionamiento offline con Firestore
+- Notificaciones push con Firebase Cloud Messaging
+- Geolocalización para farmacias cercanas con Google Maps API
 
 **Módulos principales:**
 - Autenticación y perfil de usuario

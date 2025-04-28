@@ -34,3 +34,47 @@ logs/
 
 # Archivos de dependencias
 node_modules/
+
+# Carpeta de historial IA
+.ia/
+
+# Ignorar archivos y carpetas del sistema
+.DS_Store
+node_modules
+dist
+
+# Ignorar archivos de entorno local
+.env
+.env.local
+.env.*.local
+
+# Ignorar archivos de logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Ignorar carpetas de IDEs y editores
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Ignorar archivos de build y cache
+.nuxt
+.nitro
+.cache
+.output
+.vercel
+.netlify
+
+# Ignorar carpeta de MCP
+.mcp
+**/.mcp
+
+# Ignorar carpeta de IA
+.ia/
+**/.ia/

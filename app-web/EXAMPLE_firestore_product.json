@@ -1,0 +1,20 @@
+{
+  "id": "prod_12345",
+  "nombre": "Paracetamol 500mg 20 comprimidos",
+  "categoria": "Analgésicos",
+  "laboratorio": "Laboratorio Chile",
+  "descripcion": "Alivio del dolor y fiebre. Venta sin receta.",
+  "imagenes": [
+    "https://farmaciadescuento.cl/static/paracetamol1.jpg"
+  ],
+  "ofertas": [
+    {
+      "farmacia_id": "farm_001",
+      "precio": 1990,
+      "stock": 12,
+      "fecha_vencimiento": "2025-07-31",
+      "direccion": "Av. Providencia 1234, Santiago",
+      "distancia": 2.3
+    }
+  ]
+}
