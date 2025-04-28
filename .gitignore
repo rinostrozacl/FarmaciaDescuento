@@ -78,3 +78,4 @@ pnpm-debug.log*
 # Ignorar carpeta de IA
 .ia/
 **/.ia/
+descuentofarmacia-firebase.json
